@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "522987606252",
+    "project_id": "newflydealfare",
+    "storage_bucket": "newflydealfare.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522987606252:android:6d6d2cf94df1fe4b3b95c9",
+        "android_client_info": {
+          "package_name": "com.fdffare.fly_deal_fare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522987606252-34l46prhe9mkv4bb2bvbku8ght5tugb6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fdffare.fly_deal_fare",
+            "certificate_hash": "97986513c86eb359887d7a720b7f36e8e785030b"
+          }
+        },
+        {
+          "client_id": "522987606252-m72i5bgoo47f2u9b96f9g2fqukq7v0oe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fdffare.fly_deal_fare",
+            "certificate_hash": "8fe55bc7bb2b70813e542d54223bd6e55ba18bb9"
+          }
+        },
+        {
+          "client_id": "522987606252-cslo90a0nl52mc6efqvb5s6tlg8ve3rm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALXjEhQ5Nz9CIODao0C4gewpVMt_noy8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522987606252-cslo90a0nl52mc6efqvb5s6tlg8ve3rm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "522987606252-0mukrjcdp67grglemv0q5m90lia5valg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flyDealFare"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
