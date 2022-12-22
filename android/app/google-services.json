@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "522987606252-34l46prhe9mkv4bb2bvbku8ght5tugb6.apps.googleusercontent.com",
+          "client_id": "522987606252-3vh9pd98jhgn197clamdkv0d4jnsie08.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fdffare.fly_deal_fare",
+            "certificate_hash": "6e64abf53d3a6c5965b7813cb1cd778bc7e43bf4"
+          }
+        },
+        {
+          "client_id": "522987606252-dvlme1vr2u29jncp1o74oeoovse4k63c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.fdffare.fly_deal_fare",
@@ -22,11 +30,11 @@
           }
         },
         {
-          "client_id": "522987606252-m72i5bgoo47f2u9b96f9g2fqukq7v0oe.apps.googleusercontent.com",
+          "client_id": "522987606252-teob2tlahjlmal0ptimgkmcjaip9fj0s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.fdffare.fly_deal_fare",
-            "certificate_hash": "8fe55bc7bb2b70813e542d54223bd6e55ba18bb9"
+            "certificate_hash": "1216f08ea0af4dbeb2aaa878ed7c1c33f4f577ab"
           }
         },
         {

@@ -33,9 +33,9 @@ class Data {
     address = json['address'];
     username = json['username'];
     password = json['password'];
-    passValue = json['pass_value'];
+    passValue = json['passValue'];
     dated = json['dated'];
-    lastLogin = json['last_login'];
+    lastLogin = json['lastLogin'];
     source = json['source'];
   }
 
@@ -49,9 +49,9 @@ class Data {
     map['address'] = address;
     map['username'] = username;
     map['password'] = password;
-    map['pass_value'] = passValue;
+    map['passValue'] = passValue;
     map['dated'] = dated;
-    map['last_login'] = lastLogin;
+    map['lastLogin'] = lastLogin;
     map['source'] = source;
     return map;
   }

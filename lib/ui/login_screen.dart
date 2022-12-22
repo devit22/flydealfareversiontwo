@@ -41,16 +41,22 @@ class _LogInScreenState extends State<LogInScreen> {
   var codetextg = "+91 (IN)";
   var codeg = "+91";
   var smsmcod = "some";
-  var verificationID="some";
+  var verificationID = "some";
+  Data? loggedInUser;
   late FirebaseAuth auth;
   bool _isloggedIn = false;
   Map _userObj = {};
+  String nameText="defaule";
+  String finalnumber="default";
   @override
   void initState() {
     _passwordVisible = false;
-  }
-  void singinin() async {
+    loggedInUser = new Data(id:"123",name:"Rahoul",email:"rahoul123@gmail.com",mobile: "7889105686",address: "zirakpur",username: "rahoul123@gmail.com",password: "sdfsd324234sdfs",passValue: "abctest@123",dated: "2022-01-01",lastLogin: "2022-09-12",source: "signup");
 
+
+  }
+
+  void emailandpasswordsigning() async {
     var emailText = emailControler.text.toString();
     var passwordText = passwordControler.text.toString();
 
@@ -63,37 +69,37 @@ class _LogInScreenState extends State<LogInScreen> {
         circularvisibility = true;
       });
 
-      UserApiService.getLoggedInList(emailText,passwordText).then((value) {
+      UserApiService.getLoggedInList(emailText, passwordText).then((value) {
         setState(() {
           circularvisibility = false;
         });
 
         final map = json.decode(value.body.toString()) as Map<String, dynamic>;
-        if(map['data'].runtimeType == String){
+
+        if (map['data'] == "User Not Exist") {
           ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content:   Text(" ${map['data']}"))
+              SnackBar(content: Text(" ${map['data']}"))
           );
-        }else{
-          var obj = Data(id :map['data']['id']
-              ,name: map['data']['name'],
-          email: map['data']['email'],
-            mobile: map['data']['mobile'],
-            address: map['data']['address'],
-            username: map['data']['username'],
-            password: map['data']['password'],
-            passValue: map['data']['passValue'],
-            dated: map['data']['dated'],
-            lastLogin: map['data']['lastLogin'],
-            source: map['data']['source']
+        } else {
+          var obj = Data(id: map['data']['id'],
+              name: map['data']['name'],
+              email: map['data']['email'],
+              mobile: map['data']['mobile'],
+              address: map['data']['address'],
+              username: map['data']['username'],
+              password: map['data']['password'],
+              passValue: map['data']['passValue'],
+              dated: map['data']['dated'],
+              lastLogin: map['data']['lastLogin'],
+              source: map['data']['source']
           );
 
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => HomeScreen(data: obj,))
+              MaterialPageRoute(builder: (context) => HomeScreen(loggedindata: obj,))
           );
-         // print(map['data']['mobile']);
-        }
+       }
       });
-       // LoggedInUser loggedInUser = value.body['data'];
+      // LoggedInUser loggedInUser = value.body['data'];
 
 //print(value.reasonPhrase);
 //       try {
@@ -119,24 +125,25 @@ class _LogInScreenState extends State<LogInScreen> {
 //         } else if (e.code == 'wrong-password') {
 //           print('Wrong password provided for that user.');
 //         }
-     }
-     }
+    }
+  }
 
 
-
-  void guestuser() async{
+  void guestuser() async {
     setState(() {
       circularvisibility = true;
     });
     try {
       final userCredential = await FirebaseAuth.instance.signInAnonymously();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Signed in with temporary account.")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Signed in with temporary account.")));
       print("Signed in with temporary account.");
       if (userCredential.user != null) {
         setState(() {
           circularvisibility = false;
         });
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen())
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen())
         );
       }
     } on FirebaseAuthException catch (e) {
@@ -149,12 +156,13 @@ class _LogInScreenState extends State<LogInScreen> {
       }
     }
   }
-  void signupt(BuildContext context) async{
 
+  void googlesignin(BuildContext context) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
-    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAccount? googleSignInAccount = await googleSignIn
+        .signIn();
 
     // final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn(
     //   scopes: ['email', 'profile'],
@@ -163,7 +171,8 @@ class _LogInScreenState extends State<LogInScreen> {
 
 
     if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount
+          .authentication;
 
       final AuthCredential authCredential = GoogleAuthProvider.credential(
           idToken: googleSignInAuthentication.idToken,
@@ -174,19 +183,98 @@ class _LogInScreenState extends State<LogInScreen> {
       User user = result.user!;
 
       if (user != null) {
-        print(user.email);
-        print(user.displayName);
-        print(user.phoneNumber);
-        UserApiService.getResgisterelinkList(user.email.toString(),"Not Availble", user.displayName.toString(), "Not Availble", "google").then((value){
-         
-
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
+        // print(user.email);
+        // print(user.displayName);
+        // print(user.phoneNumber);
+        UserApiService.getResgisterelinkList(
+            user.email.toString(), "Not Availble", user.displayName.toString(),
+            "Not Availble", "google").then((value) {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => HomeScreen()));
         });
-
-      }  // if result not null we simply call the MaterialpageRoute,
+      } // if result not null we simply call the MaterialpageRoute,
       // for go to the HomePage screen
     }
   }
+
+  void facebooksignin(BuildContext context) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    FacebookAuth.instance.login(permissions: ['email']).then((
+        value) async {
+      print("message => ${value.message}");
+      print("status => ${value.status}");
+      print("accesstoken => ${value.accessToken}");
+
+
+      var creditial = FacebookAuthProvider.credential(value.accessToken!.token);
+      UserCredential result = await auth.signInWithCredential(creditial);
+      User user = result.user!;
+
+      if (user != null) {
+        UserApiService.getResgisterelinkList(user.email.toString(),"Not Availble", user.displayName.toString(), "Not Availble", "Facebook").then((value){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
+        });
+
+      }
+      FacebookAuth.instance.getUserData().then((userdata) async {
+        userdata.forEach((key, value) {
+          print("$key => $value");
+        });
+        setState(() {
+          _isloggedIn = true;
+          _userObj = userdata;
+        });
+
+
+
+      });
+
+    });
+  }
+
+  // Future signInFacebook() async {
+  //   FirebaseAuth auth = FirebaseAuth.instance;
+  //
+  //   try {
+  //     final facebookLogin = FacebookLogin();
+  //
+  //     // bool isLoggedIn = await facebookLogin.isLoggedIn;
+  //
+  //     final FacebookLoginResult result = await facebookLogin.logIn(
+  //       customPermissions: ['email','public_profile']
+  //     );
+  //
+  //     switch (result.status) {
+  //       case FacebookLoginStatus.success:
+  //         String token = result.accessToken!.token;
+  //
+  //         final AuthCredential credential =
+  //         FacebookAuthProvider.credential(token);
+  //
+  //         UserCredential userCredential = await auth.signInWithCredential(credential);
+  //        var litedata = userCredential.additionalUserInfo!;
+  //        print(litedata.profile.toString());
+  //         User? user = userCredential.user;
+  //         if (user != null) {
+  //           print(user.email);
+  //           print(user.displayName);
+  //           print(user.phoneNumber);
+  //
+  //         }
+  //           break;
+  //       case FacebookLoginStatus.cancel:
+  //         break;
+  //       case FacebookLoginStatus.error:
+  //         print(result.error);
+  //         break;
+  //     }
+  //
+  //     return true;
+  //   } catch (error) {
+  //     return false;
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -224,22 +312,8 @@ class _LogInScreenState extends State<LogInScreen> {
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(20)))),
                             onPressed: () {
-                              FacebookAuth.instance.login(
-                                  permissions: ['public_profile',"email"]).then((value) {
-                                FacebookAuth.instance.getUserData().then((userdata) async {
-                                  setState(() {
-                                    _isloggedIn = true;
-                                    _userObj = userdata;
-                                  });
+                             facebooksignin(context);
 
-                                  // UserApiService.getResgisterelinkList("email","Not Availble", user.displayName.toString(), "Not Availble", "google").then((value){
-                                  //
-                                  //
-                                  //   Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
-                                  // });
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-                                });
-                              });
                             },
                             icon: SizedBox(
                                 height: 30,
@@ -261,7 +335,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(20)))),
                             onPressed: () {
-                              signupt(context);
+                              googlesignin(context);
                             },
                             icon: SizedBox(
                                 height: 30,
@@ -448,7 +522,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             child: FloatingActionButton.extended(
                               backgroundColor: ColorConstants.greencolor,
                               onPressed: () {
-                                singinin();
+                                emailandpasswordsigning();
                               },
                               label: const Text(
                                 'Sign In',
@@ -693,7 +767,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               borderRadius: BorderRadius.all(Radius.circular(20)))),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>  HomeScreen()));
+                            builder: (context) =>  HomeScreen(loggedindata: loggedInUser,)));
                       },
                       child: const Text(
                         " Sign In As Guest",
@@ -708,7 +782,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     alignment: Alignment.centerLeft,
                     child: TextButton(
                         onPressed: () {
-                          passendPickDialog(context);
+                          forgotpassworddialog(context);
                         },
                         child: const Text(
                           " forgot Password? Click here",
@@ -793,6 +867,7 @@ class _LogInScreenState extends State<LogInScreen> {
   }
   void getotpfunction() async {
     var numberText = numberControler.text.toString().trim();
+     nameText = nameControler.text.toString().trim();
     if (numberText.isEmpty || numberText == " " || int.parse(numberText) == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("number text shoult not be empty"))
@@ -805,7 +880,7 @@ class _LogInScreenState extends State<LogInScreen> {
         _otpverifylayoutVisible = true;
       });
 
-      var finalnumber = "$countrycode$numberText";
+       finalnumber = "$countrycode$numberText";
       auth = FirebaseAuth.instance;
 
       await auth.verifyPhoneNumber(
@@ -843,6 +918,12 @@ class _LogInScreenState extends State<LogInScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
           const  SnackBar(content:   Text(" Logged in with number"))
       );
+
+      UserApiService.getResgisterelinkList("not availble", "Not Availble",nameText , finalnumber, "phone Number").then((value) {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => HomeScreen()));
+      });
+
       Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
@@ -860,7 +941,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   }
 
-  Future<void> passendPickDialog(BuildContext context) async {
+  Future<void> forgotpassworddialog(BuildContext context) async {
 
 
     return await showDialog(
@@ -905,7 +986,41 @@ class _LogInScreenState extends State<LogInScreen> {
                           controller: forgotemailController,
                           style: const TextStyle(color: ColorConstants.whitecolr),
                           decoration: const InputDecoration(
-                              labelText: "Enter Email",
+                              labelText: "Enter Email or Number",
+                              labelStyle:
+                              TextStyle(color: ColorConstants.whitecolr),
+                              hintStyle:
+                              TextStyle(color: ColorConstants.whitecolr),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: ColorConstants.whitecolr,
+                                    width: 2.0),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: ColorConstants.whitecolr,
+                                    width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: ColorConstants.whitecolr,
+                                      width: 2.0)),
+                              prefixIcon: Icon(
+                                Icons.email_outlined,
+                                color: ColorConstants.whitecolr,
+                              ))),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: 300,
+                      child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: forgotemailController,
+                          style: const TextStyle(color: ColorConstants.whitecolr),
+                          decoration: const InputDecoration(
+                              labelText: "Enter New Password",
                               labelStyle:
                               TextStyle(color: ColorConstants.whitecolr),
                               hintStyle:

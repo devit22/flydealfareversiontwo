@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fdffare.fly_deal_fare">
+
+
    <application
-        android:label="fly_deal_fare"
+        android:label="FlyDealFare"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -35,6 +37,7 @@
        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
 
 
+
        <activity android:name="com.facebook.FacebookActivity"
            android:configChanges=
                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -49,6 +52,7 @@
                <data android:scheme="@string/fb_login_protocol_scheme" />
            </intent-filter>
        </activity>
+
 
    </application>
 </manifest>

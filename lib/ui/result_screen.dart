@@ -25,6 +25,10 @@ class _ResultScreenState extends State<ResultScreen> {
     //   WebView.platform = SurfaceAndroidWebView();
     // }
     super.initState();
+    Future.delayed(Duration(seconds: 15), (){
+      _controller.evaluateJavascript("document.getElementsByClassName('click-to-call')[0].style.display='none'");
+      // print("this is printing after 10 seconds");
+    });
   }
 
   @override

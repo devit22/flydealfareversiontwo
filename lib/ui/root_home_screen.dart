@@ -1,9 +1,11 @@
 
+import 'dart:math';
 
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fly_deal_fare/models/Data.dart';
 import 'package:fly_deal_fare/ui/deals_screen.dart';
@@ -15,14 +17,15 @@ import 'package:fly_deal_fare/ui/reward_screen.dart';
 import 'package:fly_deal_fare/ui/search_screen.dart';
 import 'package:fly_deal_fare/ui/setting.dart';
 import 'package:fly_deal_fare/ui/notification_screen.dart';
+import 'package:fly_deal_fare/ui/update_screen.dart';
 import 'package:fly_deal_fare/utils/diamensions.dart';
 import 'package:get/get.dart';
 
 
 
 class HomeScreen extends StatefulWidget {
-  Data? data;
-   HomeScreen({Key? key, this.data}) : super(key: key);
+  Data? loggedindata;
+   HomeScreen({Key? key, this.loggedindata}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -30,15 +33,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var pageIndex = 0;
-  final pages = [
-    Search(),
-    Reward(),
-    MyTrips(),
-    Deals(),
-    MyAccount(),
-    Settings(),
-    NotificationScreen()
-  ];
+var  pages = [];
+
 late FirebaseAuth auth;
   // static const String androidChannelKey =
   //     "eyJzZXR0aW5nc191cmwiOiJodHRwczovL3VjbWFzc25ldHRvbmljcy56ZW5kZXNrLmNvbS9tb2JpbGVfc2RrX2FwaS9zZXR0aW5ncy8wMUc3WEpNRUg0UkdIMDg1QkdBMlg1MzJONi5qc29uIn0=";
@@ -50,8 +46,17 @@ late FirebaseAuth auth;
   void initState() {
     super.initState();
      auth = FirebaseAuth.instance;
+     pages = [
+      Search(),
+      Reward(),
+      MyTrips(),
+      Deals(),
+      MyAccount(loggedInuser: widget.loggedindata,),
+      Settings(),
+      NotificationScreen()
+    ];
   //  print(" welcome! ${widget.data!.name}");
-
+   
     // ZendeskMessaging.initialize(
     //     androidChannelKey: androidChannelKey, iosChannelKey: iosChannelKey);
     //  Optional, observe all incoming messages
@@ -187,7 +192,10 @@ late FirebaseAuth auth;
                 ),
                 onTap: () {
                   auth.signOut();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LogInScreen()));
+FacebookAuth.instance.logOut().then((value) => {
+Navigator.push(context, MaterialPageRoute(builder: (context) => LogInScreen()))
+});
+
                 },
               ),
             ],
