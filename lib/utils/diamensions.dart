@@ -14,6 +14,7 @@ class Diamensions {
   static double width310 = screenwidth/1.21;
   static double width58 = screenwidth/6.46;
   static double width145 = screenwidth/2.58;
+  static double width1 = screenwidth/375;
 //height
   static double height40 = screenHeight/16.67;
   static double height53 = screenHeight/12.58;
@@ -21,6 +22,7 @@ class Diamensions {
   static double height5 = screenHeight/133.4;
   static double height58 = screenHeight/11.5;
   static double height145 = screenHeight/4.6;
+  static double height1 = screenHeight/667.0;
 
 //font size
   static double fontsize16 = screenwidth/23.43;
@@ -28,6 +30,7 @@ class Diamensions {
   static double fontsize30 = screenwidth/12.5;
   static double fontsize19 = screenwidth/19.73;
   static double fontsize17 = screenwidth/22.05;
+  static double fontsize5 = screenwidth/75.0;
 
 
   //icon size

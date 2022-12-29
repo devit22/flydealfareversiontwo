@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fly_deal_fare/models/Data.dart';
+import 'package:fly_deal_fare/ui/chat_screen.dart';
 import 'package:fly_deal_fare/ui/deals_screen.dart';
 import 'package:fly_deal_fare/ui/login_screen.dart';
 import 'package:fly_deal_fare/ui/myaccount_screen.dart';
@@ -17,7 +18,7 @@ import 'package:fly_deal_fare/ui/reward_screen.dart';
 import 'package:fly_deal_fare/ui/search_screen.dart';
 import 'package:fly_deal_fare/ui/setting.dart';
 import 'package:fly_deal_fare/ui/notification_screen.dart';
-import 'package:fly_deal_fare/ui/update_screen.dart';
+import 'package:fly_deal_fare/ui/travel_update_screen.dart';
 import 'package:fly_deal_fare/utils/diamensions.dart';
 import 'package:get/get.dart';
 
@@ -34,7 +35,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var pageIndex = 0;
 var  pages = [];
-
+  String url = "https://v2.zopim.com/widget/livechat.html?api_calls=%5B%5D&hostname=flydealfare.com&key=3Em35GdwEBlCExa7X0KZN0silzvPrqZA&lang=en&";
 late FirebaseAuth auth;
   // static const String androidChannelKey =
   //     "eyJzZXR0aW5nc191cmwiOiJodHRwczovL3VjbWFzc25ldHRvbmljcy56ZW5kZXNrLmNvbS9tb2JpbGVfc2RrX2FwaS9zZXR0aW5ncy8wMUc3WEpNRUg0UkdIMDg1QkdBMlg1MzJONi5qc29uIn0=";
@@ -53,7 +54,9 @@ late FirebaseAuth auth;
       Deals(),
       MyAccount(loggedInuser: widget.loggedindata,),
       Settings(),
-      NotificationScreen()
+      NotificationScreen(),
+       ChatScreen(chaturl: url,),
+       TravelUpdateScreen()
     ];
   //  print(" welcome! ${widget.data!.name}");
    
@@ -177,7 +180,25 @@ late FirebaseAuth auth;
                   style: TextStyle(color: Colors.blue),
                 ),
                 onTap: () {
-                  //ZendeskMessaging.show();
+                  setState(() {
+                    pageIndex = 7;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.card_travel_outlined,
+                  color: Colors.blue,
+                ),
+                title: const Text(
+                  'Travel Updates',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onTap: () {
+                  setState(() {
+                    pageIndex = 8;
+                  });
                   Navigator.pop(context);
                 },
               ),

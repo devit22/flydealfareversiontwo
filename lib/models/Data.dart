@@ -11,6 +11,8 @@ class Data {
   String? dated;
   String? lastLogin;
   String? source;
+  String? country;
+  String? state;
 
   Data({
       this.id, 
@@ -23,7 +25,11 @@ class Data {
       this.passValue, 
       this.dated, 
       this.lastLogin, 
-      this.source,});
+      this.source,
+  this.country,
+    this.state
+
+  });
 
   Data.fromJson(dynamic json) {
     id = json['id'];
@@ -37,6 +43,8 @@ class Data {
     dated = json['dated'];
     lastLogin = json['lastLogin'];
     source = json['source'];
+    country= json['country'];
+    state = json['state'];
   }
 
 
@@ -53,6 +61,8 @@ class Data {
     map['dated'] = dated;
     map['lastLogin'] = lastLogin;
     map['source'] = source;
+    map['country']= country;
+    map['state'] = state;
     return map;
   }
 

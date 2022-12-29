@@ -3,6 +3,7 @@ import 'package:fly_deal_fare/colors_class/colors_class.dart';
 import 'package:fly_deal_fare/ui/mulit_city_screen.dart';
 import 'package:fly_deal_fare/ui/oneway_screen.dart';
 import 'package:fly_deal_fare/ui/round_trip.dart';
+import 'package:fly_deal_fare/utils/diamensions.dart';
 
 class Flights extends StatefulWidget {
   const Flights({Key? key}) : super(key: key);
@@ -79,6 +80,7 @@ class _FlightsState extends State<Flights> with TickerProviderStateMixin {
               ),
             ),
             // tab bar view here
+            SizedBox(height: Diamensions.height10,),
             Expanded(
               child: TabBarView(
                 controller: _tabController,

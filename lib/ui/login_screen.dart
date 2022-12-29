@@ -25,6 +25,7 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
+
   late bool _passwordVisible;
   late bool _gmaillayoutVisible = true;
   late bool _numberlayoutVisible = false;
@@ -48,10 +49,11 @@ class _LogInScreenState extends State<LogInScreen> {
   Map _userObj = {};
   String nameText="defaule";
   String finalnumber="default";
+
   @override
   void initState() {
     _passwordVisible = false;
-    loggedInUser = new Data(id:"123",name:"Rahoul",email:"rahoul123@gmail.com",mobile: "7889105686",address: "zirakpur",username: "rahoul123@gmail.com",password: "sdfsd324234sdfs",passValue: "abctest@123",dated: "2022-01-01",lastLogin: "2022-09-12",source: "signup");
+    loggedInUser = new Data(id:"123",name:"Rahoul",email:"rahoul123@gmail.com",mobile: "7889105686",address: "zirakpur",username: "rahoul123@gmail.com",password: "sdfsd324234sdfs",passValue: "abctest@123",dated: "2022-01-01",lastLogin: "2022-09-12",source: "signup",country: "India",state: "Punjab");
 
 
   }
@@ -91,7 +93,9 @@ class _LogInScreenState extends State<LogInScreen> {
               passValue: map['data']['passValue'],
               dated: map['data']['dated'],
               lastLogin: map['data']['lastLogin'],
-              source: map['data']['source']
+              source: map['data']['source'],
+            country:map['data']['state'],
+            state: map['data']['state']
           );
 
           Navigator.push(context,

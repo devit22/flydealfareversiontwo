@@ -257,7 +257,9 @@ class _MyAccountState extends State<MyAccount> {
                                   passValue: map['data']['passValue'],
                                   dated: map['data']['dated'],
                                   lastLogin: map['data']['lastLogin'],
-                                  source: map['data']['source']
+                                  source: map['data']['source'],
+                                country:map['data']['country'],
+                                state: map['data']['state']
                               );
 
                               Navigator.push(context,

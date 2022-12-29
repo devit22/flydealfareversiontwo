@@ -4,6 +4,7 @@ import 'package:fly_deal_fare/models/Country.dart';
 import 'package:fly_deal_fare/models/LoggedInUser.dart';
 import 'package:fly_deal_fare/models/RegisterResponse.dart';
 import 'package:fly_deal_fare/models/ReturnRespons.dart';
+import 'package:fly_deal_fare/models/blogsmodel/BlogList.dart';
 import 'package:fly_deal_fare/models/output.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,7 @@ import 'package:http/http.dart' as http;
 class UserApiService {
   static String BASE_URL = "http://192.168.1.82/flydealfare/";
   static String BASE_URL2 = "https://flydealfare.com/API/";
+
   static Future<List<Output>> getsuggestionairport(String queryy) async {
     final url = Uri.parse("https://flydealfare.com/API/airport/list/");
     final response = await http.get(url);
@@ -28,6 +30,17 @@ class UserApiService {
     }
   }
 
+  static Future<List<Output>> getupdatedairportlist(String queryy) async {
+    final url = Uri.parse("https://flydealfare.com/API/a/list/$queryy");
+    final response = await http.get(url);
+    final responsdata = json.decode(response.body);
+    if (response.statusCode == 200) {
+      final List users = responsdata['output'];
+      return users.map((json) => Output.fromJson(json)).toList();
+    } else {
+      throw Exception();
+    }
+  }
   static Future<List<Country>> getCountriesList(String queryy) async {
     final url = Uri.parse("https://flydealfare.com/API/country/list/");
     final response = await http.get(url);
@@ -98,4 +111,39 @@ class UserApiService {
       throw Exception();
     }
   }
+
+static Future<ReturnRespons> userupdatedata(String id ,String email,String address,String name,String mobile) async{
+  final url = Uri.parse("${BASE_URL}updatedata.php");
+  final respons =await http.post(url,body: {
+    "name":name,
+    "email":email,
+    "mobile":mobile,
+    "address":address,
+    "id":id,
+  });
+
+  final ReturnRespons returnRespons = ReturnRespons.fromJson(jsonDecode(respons.body.toString()));
+
+  if(respons.statusCode == 200){
+    return returnRespons;
+  }else{
+    throw Exception();
+  }
+}
+
+
+static Future<List<BlogList>> getblogs() async{
+  final url = Uri.parse("http://flydealfare.com/API/blog.php");
+  final response = await http.get(url);
+ var data = jsonDecode(response.body.toString());
+ List<BlogList> bloglist = [];
+  if (response.statusCode == 200) {
+    for(Map i in data){
+      bloglist.add(BlogList.fromJson(i));
+    }
+    return bloglist;
+  } else {
+    throw Exception();
+  }
+}
 }

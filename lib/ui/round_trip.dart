@@ -18,11 +18,11 @@ class _RoundTripState extends State<RoundTrip> {
   String startDateText = "Depart Date";
   String endDateText = "Return Date";
 
-  String dropdownvalueg = 'Economy';
+  String dropdownvalue = 'Economy';
   var passengerInfo = "Pick Passenger and More";
-  var adultcountg = 0;
-  var childcountg = 0;
-  var infantcountg = 0;
+  var adultcount = 1;
+  var childcount = 0;
+  var infantcount = 0;
 
   var departSuggestionValue = "Depart City";
   var departAirportCodeValue = "some";
@@ -33,16 +33,33 @@ class _RoundTripState extends State<RoundTrip> {
   var isPressed = false;
   var isPressedDes = false;
   var i = 0;
+  var items = [
+    'Economy',
+    'First',
+    'Business',
+    'Premium',
+  ];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           Container(
-            width: Diamensions.width310,
-            margin:
-                 EdgeInsets.only(left: Diamensions.width10*2, right: Diamensions.width10*2, top: Diamensions.height10, bottom: Diamensions.height5),
+            width: Diamensions.width310+Diamensions.width10*2,
+            height: Diamensions.height53,
+            padding: EdgeInsets.only(left: Diamensions.width10+Diamensions.width5,right: Diamensions.width10+Diamensions.width5),
+            margin:  EdgeInsets.only(left: Diamensions.width10, right: Diamensions.width10),
             child: TypeAheadField<Output?>(
+              loadingBuilder: (context){
+                return SizedBox(
+                  height: 50,
+                  child: Center(child: CircularProgressIndicator(
+                    color: ColorConstants.backgroundColor,
+                  )
+                  ),
+                );
+              },
+              minCharsForSuggestions: 3,
               hideSuggestionsOnKeyboardHide: true,
               textFieldConfiguration: TextFieldConfiguration(
                   style: const TextStyle(color: ColorConstants.whitecolr),
@@ -67,7 +84,7 @@ class _RoundTripState extends State<RoundTrip> {
                         Icons.place_outlined,
                         color: ColorConstants.whitecolr,
                       ))),
-              suggestionsCallback: UserApiService.getsuggestionairport,
+              suggestionsCallback: UserApiService.getupdatedairportlist,
               itemBuilder: (context, Output? suggestion) {
                 final user = suggestion;
 
@@ -105,11 +122,25 @@ class _RoundTripState extends State<RoundTrip> {
               },
             ),
           ),
+          SizedBox(
+            height: Diamensions.height5,
+          ),
           Container(
-            width: Diamensions.width310,
-            margin:
-            EdgeInsets.only(left: Diamensions.width10*2, right: Diamensions.width10*2, top: Diamensions.height10, bottom: Diamensions.height5),
+            width: Diamensions.width310+Diamensions.width10*2,
+            height: Diamensions.height53,
+            padding: EdgeInsets.only(left: Diamensions.width10+Diamensions.width5,right: Diamensions.width10+Diamensions.width5),
+            margin:  EdgeInsets.only(left: Diamensions.width10, right: Diamensions.width10),
             child: TypeAheadField<Output?>(
+              loadingBuilder: (context){
+                return SizedBox(
+                  height: 50,
+                  child: Center(child: CircularProgressIndicator(
+                    color: ColorConstants.backgroundColor,
+                  )
+                  ),
+                );
+              },
+              minCharsForSuggestions: 3,
               hideSuggestionsOnKeyboardHide: true,
               textFieldConfiguration: TextFieldConfiguration(
                   style: const TextStyle(color: ColorConstants.whitecolr),
@@ -134,7 +165,7 @@ class _RoundTripState extends State<RoundTrip> {
                         Icons.place_outlined,
                         color: ColorConstants.whitecolr,
                       ))),
-              suggestionsCallback: UserApiService.getsuggestionairport,
+              suggestionsCallback: UserApiService.getupdatedairportlist,
               itemBuilder: (context, Output? suggestion) {
                 final user = suggestion;
 
@@ -173,14 +204,17 @@ class _RoundTripState extends State<RoundTrip> {
             ),
           ),
           Container(
-            width: Diamensions.width310,
+            width: Diamensions.width310+Diamensions.width10*2,
+            height: Diamensions.height53,
+            padding: EdgeInsets.only(left: Diamensions.width10+Diamensions.width5,right: Diamensions.width10+Diamensions.width5),
+            margin:  EdgeInsets.only(left: Diamensions.width10, right: Diamensions.width10),
             child: Row(
               children: [
                 Container(
                     height: Diamensions.height58,
                     width: Diamensions.width145,
                     margin:  EdgeInsets.only(
-                         right: Diamensions.width5, top: Diamensions.height10, bottom: Diamensions.height5),
+                         right: Diamensions.width5, top: Diamensions.height5, bottom: Diamensions.height5),
                     child: OutlinedButton.icon(
                       style: OutlinedButton.styleFrom(
                           fixedSize: const Size(50, 40),
@@ -208,7 +242,7 @@ class _RoundTripState extends State<RoundTrip> {
                       height: Diamensions.height58,
 
                       margin:  EdgeInsets.only(
-                          left: Diamensions.width10,  top: Diamensions.height10, bottom: Diamensions.height5),
+                          left: Diamensions.width10,  top: Diamensions.height5, bottom: Diamensions.height5),
                       child: OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
                             fixedSize: const Size(50, 40),
@@ -235,31 +269,350 @@ class _RoundTripState extends State<RoundTrip> {
             ),
           ),
           Container(
-            width: Diamensions.width310,
-              height: 58,
-              margin: const EdgeInsets.only(
-                  left: 20, right: 20, top: 10, bottom: 5),
-              child: OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                    fixedSize: const Size(50, 40),
-                    alignment: const AlignmentDirectional(-1.0, 0),
-                    side: const BorderSide(
-                        width: 2,
-                        color: ColorConstants.whitecolr,
-                        style: BorderStyle.solid)),
-                onPressed: () async {
-                  await passendPickDialog(context);
-                },
-                icon:  Icon(
-                  Icons.calendar_month_outlined,
-                  size: Diamensions.iconsize23,
-                  color: ColorConstants.whitecolr,
+            width: Diamensions.width310-Diamensions.width5*2,
+            height: Diamensions.height53-Diamensions.height5,
+            margin:  EdgeInsets.only(left: Diamensions.width10, right: Diamensions.width10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.0),
+                border: Border.all(width: 2,color: Colors.white)
+            ),
+            child: DropdownButton(
+
+
+              // Initial Value
+              value: dropdownvalue,
+              icon: const Icon(
+                Icons.keyboard_arrow_down,
+                color: ColorConstants.whitecolr,
+              ),
+              isExpanded: true,
+              selectedItemBuilder: (BuildContext context) { //<-- SEE HERE
+                return <String>[
+                  'Economy',
+                  'First',
+                  'Business',
+                  'Premium',
+                ]
+                    .map((String value) {
+                  return Center(
+                    child: Text(dropdownvalue,
+                      style:  TextStyle(color: Colors.white, fontSize: Diamensions.fontsize17),
+                    ),
+                  );
+                }).toList();
+              },
+              underline: Container(height: 2,color: ColorConstants.backgroundColor,),
+              alignment: Alignment.center,
+              // Array list of items
+              items: items.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(
+                    items,
+                    style: const TextStyle(
+                        color: ColorConstants.iconColror,
+                        fontSize: 17),
+                  ),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownvalue = newValue!;
+                });
+              },
+            ),
+          ),
+          Container(
+            width: Diamensions.width310+Diamensions.width10*2,
+            padding: EdgeInsets.only(left: Diamensions.width10+Diamensions.width5,right: Diamensions.width10+Diamensions.width5),
+            margin:  EdgeInsets.only(left: Diamensions.width10, right: Diamensions.width10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+
+                  margin: const EdgeInsets.only( top: 10, bottom: 5),
+                  child: Stack(
+                    children: [
+
+                      Container(
+                        padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
+                        margin: EdgeInsets.only(top: Diamensions.height5),
+                        decoration:  BoxDecoration(
+                            border: Border.all(width: 1.3,color: Colors.white),
+                            borderRadius: BorderRadius.circular(6.0)
+
+                        ),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  if(adultcount >1){
+                                    adultcount = adultcount-1;
+                                  }
+                                });
+                              },
+                              child: Card(
+                                child: Container(
+                                  color: Colors.white,
+                                  width: Diamensions.width5*4,
+                                  height: Diamensions.width5*4,
+                                  margin:  EdgeInsets.all(Diamensions.width1*2),
+                                  child: Center(
+                                    child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                                width: Diamensions.width10*3-5,
+                                height: Diamensions.height10*3-5,
+                                child: Center(
+                                  child: Text(
+                                    "$adultcount",
+                                    style:  TextStyle(
+                                        color: ColorConstants.whitecolr,
+                                        fontSize: Diamensions.fontsize17),
+                                  ),
+                                )),
+                            GestureDetector(
+                              onTap: (){
+                                setState(() {
+
+                                  adultcount = adultcount+1;
+
+                                });
+                              },
+                              child: Card(
+                                child: Container(
+                                  color: Colors.white,
+                                  width: Diamensions.width5*4,
+                                  height: Diamensions.width5*4,
+                                  margin:  EdgeInsets.all(Diamensions.width1*2),
+                                  child: Center(
+                                    child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                          child: Container(
+                            color: ColorConstants.backgroundColor,
+                            child: Text("Adult",style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          left: Diamensions.width10*3,
+                          bottom: Diamensions.height40-Diamensions.height1*2
+
+                      ),
+                    ],
+                  ),
                 ),
-                label: Text(
-                  passengerInfo,
-                  style: const TextStyle(color: ColorConstants.whitecolr),
+                SizedBox(
+                  width: Diamensions.height5,
                 ),
-              )),
+                Container(
+
+                  margin: const EdgeInsets.only( top: 10, bottom: 5),
+                  child: Stack(
+                    children: [
+
+                      Container(
+                        padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
+                        margin: EdgeInsets.only(top: Diamensions.height5),
+                        decoration:  BoxDecoration(
+                            border: Border.all(width: 1.3,color: Colors.white),
+                            borderRadius: BorderRadius.circular(6.0)
+
+                        ),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  if(childcount >0){
+                                    childcount = childcount-1;
+                                  }
+                                });
+                              },
+                              child: Card(
+                                child: Container(
+                                  color: Colors.white,
+                                  width: Diamensions.width5*4,
+                                  height: Diamensions.width5*4,
+                                  margin:  EdgeInsets.all(Diamensions.width1*2),
+                                  child: Center(
+                                    child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                                width: Diamensions.width10*3-5,
+                                height: Diamensions.height10*3-5,
+                                child: Center(
+                                  child: Text(
+                                    "$childcount",
+                                    style:  TextStyle(
+                                        color: ColorConstants.whitecolr,
+                                        fontSize: Diamensions.fontsize17),
+                                  ),
+                                )),
+                            GestureDetector(
+                              onTap: (){
+                                setState(() {
+
+                                  childcount = childcount+1;
+
+                                });
+                              },
+                              child: Card(
+                                child: Container(
+                                  color: Colors.white,
+                                  width: Diamensions.width5*4,
+                                  height: Diamensions.width5*4,
+                                  margin:  EdgeInsets.all(Diamensions.width1*2),
+                                  child: Center(
+                                    child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                          child: Container(
+                            color: ColorConstants.backgroundColor,
+                            child: Text("Child",style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          left: Diamensions.width10*3,
+                          bottom: Diamensions.height40-Diamensions.height1*2
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: Diamensions.height5,
+                ),
+                Container(
+
+                  margin: const EdgeInsets.only( top: 10, bottom: 5),
+                  child: Stack(
+                    children: [
+
+                      Container(
+                        padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
+                        margin: EdgeInsets.only(top: Diamensions.height5),
+                        decoration:  BoxDecoration(
+                            border: Border.all(width: 1.3,color: Colors.white),
+                            borderRadius: BorderRadius.circular(6.0)
+
+                        ),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  if(infantcount >1){
+                                    infantcount = infantcount-1;
+                                  }
+                                });
+                              },
+                              child: Card(
+                                child: Container(
+                                  color: Colors.white,
+                                  width: Diamensions.width5*4,
+                                  height: Diamensions.width5*4,
+                                  margin:  EdgeInsets.all(Diamensions.width1*2),
+                                  child: Center(
+                                    child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                                width: Diamensions.width10*3-5,
+                                height: Diamensions.height10*3-5,
+                                child: Center(
+                                  child: Text(
+                                    "$infantcount",
+                                    style:  TextStyle(
+                                        color: ColorConstants.whitecolr,
+                                        fontSize: Diamensions.fontsize17),
+                                  ),
+                                )),
+                            GestureDetector(
+                              onTap: (){
+                                setState(() {
+
+                                  infantcount = infantcount+1;
+
+                                });
+                              },
+                              child: Card(
+                                child: Container(
+                                  color: Colors.white,
+                                  width: Diamensions.width5*4,
+                                  height: Diamensions.width5*4,
+                                  margin:  EdgeInsets.all(Diamensions.width1*2),
+                                  child: Center(
+                                    child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                          child: Container(
+                            color: ColorConstants.backgroundColor,
+                            child: Text("Infant",style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          left: Diamensions.width10*3,
+                          bottom: Diamensions.height40-Diamensions.height1*2
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Container(
+          //   width: Diamensions.width310,
+          //     height: 58,
+          //     margin: const EdgeInsets.only(
+          //         left: 20, right: 20, top: 10, bottom: 5),
+          //     child: OutlinedButton.icon(
+          //       style: OutlinedButton.styleFrom(
+          //           fixedSize: const Size(50, 40),
+          //           alignment: const AlignmentDirectional(-1.0, 0),
+          //           side: const BorderSide(
+          //               width: 2,
+          //               color: ColorConstants.whitecolr,
+          //               style: BorderStyle.solid)),
+          //       onPressed: () async {
+          //         await passendPickDialog(context);
+          //       },
+          //       icon:  Icon(
+          //         Icons.calendar_month_outlined,
+          //         size: Diamensions.iconsize23,
+          //         color: ColorConstants.whitecolr,
+          //       ),
+          //       label: Text(
+          //         passengerInfo,
+          //         style: const TextStyle(color: ColorConstants.whitecolr),
+          //       ),
+          //     )),
           Container(
             width: Diamensions.width310,
             margin:
@@ -268,9 +621,9 @@ class _RoundTripState extends State<RoundTrip> {
               backgroundColor: ColorConstants.greencolor,
               onPressed: () {
                 var myurl3 =
-                    "https://flights.flightinfo.live/web/air/default.aspx?siid=949880&AirSegCount=2&aCount=$adultcountg&sCount=0&cCount=$childcountg&yCount=$infantcountg&iSCount=0&iLCount=0&Class=$dropdownvalueg&DirectFlight=&Refundable=&AirSeg_1=$departAirportCodeValue|$destinationAirportCodeValue|$startDateText||-1|3|&AirSeg_2=$destinationAirportCodeValue|$departAirportCodeValue|$endDateText||-1|3|";
+                    "https://flights.flightinfo.live/web/air/default.aspx?siid=949880&AirSegCount=2&aCount=$adultcount&sCount=0&cCount=$childcount&yCount=$infantcount&iSCount=0&iLCount=0&Class=$dropdownvalue&DirectFlight=&Refundable=&AirSeg_1=$departAirportCodeValue|$destinationAirportCodeValue|$startDateText||-1|3|&AirSeg_2=$destinationAirportCodeValue|$departAirportCodeValue|$endDateText||-1|3|";
                 //var myurl2 = "https://flights.flightinfo.live/web/air/default.aspx?siid=131174&AirSegCount=2&aCount=$adultcountg&sCount=0&cCount=$childcountg&yCount=$infantcountg&iSCount=0&iLCount=0&Class=$dropdownvalueg&DirectFlight=&Refundable=&AirSeg_1=$departAirportCodeValue|$destinationAirportCodeValue|$startDateText||-1|3|&AirSeg_2=$destinationAirportCodeValue|$departAirportCodeValue|$endDateText||-1|3|";
-var myurl4 = "https://flights.flydealfare.com/web/air/default.aspx?siid=105302&AirSegCount=2&aCount=$adultcountg&sCount=0&cCount=$childcountg&yCount=$infantcountg&iSCount=0&iLCount=0&Class=$dropdownvalueg&DirectFlight=&Refundable=&AirSeg_1=$departAirportCodeValue|$destinationAirportCodeValue|$startDateText||-1|3|&AirSeg_2=$destinationAirportCodeValue|$departAirportCodeValue|$endDateText||-1|3|";
+var myurl4 = "https://flights.flydealfare.com/web/air/default.aspx?siid=999886&AirSegCount=2&aCount=$adultcount&sCount=0&cCount=$childcount&yCount=$infantcount&iSCount=0&iLCount=0&Class=$dropdownvalue&DirectFlight=&Refundable=&AirSeg_1=$departAirportCodeValue|$destinationAirportCodeValue|$startDateText||-1|3|&AirSeg_2=$destinationAirportCodeValue|$departAirportCodeValue|$endDateText||-1|3|";
                 //var  url = "https://flights.flydealfare.com/web/air/default.aspx?siid=105302&AirSegCount=2&aCount=$adultcountg&sCount=0&cCount=$childcountg&yCount=$infantcountg&iSCount=0&iLCount=0&Class=$dropdownvalueg&DirectFlight=&Refundable=&AirSeg_1=$departAirportCodeValue|$destinationAirportCodeValue|$startDateText||-1|3|&AirSeg_2=$destinationAirportCodeValue|$departAirportCodeValue|$endDateText||-1|3|";
                 Navigator.push(
                     context,
@@ -335,326 +688,5 @@ var myurl4 = "https://flights.flydealfare.com/web/air/default.aspx?siid=105302&A
     }
   }
 
-  Future<void> passendPickDialog(BuildContext context) async {
-    var adultcount = 0;
-    var childcount = 0;
-    var infantcount = 0;
-    String dropdownvalue = 'Economy';
-    var items = [
-      'Economy',
-      'First',
-      'Business',
-      'Premium',
-    ];
 
-    return await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: StatefulBuilder(
-              builder: (context, setState) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Container(
-                        width: 350,
-                        alignment: Alignment.topLeft,
-                        child: DropdownButton(
-                          // Initial Value
-                          value: dropdownvalue,
-                          icon: const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: ColorConstants.iconColror,
-                          ),
-
-                          // Array list of items
-                          items: items.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(
-                                items,
-                                style: const TextStyle(
-                                    color: ColorConstants.iconColror,
-                                    fontSize: 17),
-                              ),
-                            );
-                          }).toList(),
-                          // After selecting the desired option,it will
-                          // change button value to selected value
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownvalue = newValue!;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      child: Row(
-                        children: [
-                          Container(
-                              width: Diamensions.width53,
-                              height: Diamensions.height40,
-                              alignment: Alignment.center,
-                              margin:  EdgeInsets.only(right: Diamensions.width10),
-                              child:  Text(
-                                "Adults",
-                                style: TextStyle(
-                                    color: ColorConstants.iconColror,
-                                    fontSize: Diamensions.fontsize16),
-                              )
-                          ),
-                          Container(
-                            width: Diamensions.width40,
-                            height: Diamensions.height40,
-                            margin:  EdgeInsets.only(left: Diamensions.width5,right: Diamensions.width5,top: Diamensions.height5,bottom: Diamensions.height5),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (adultcount > 0) {
-                                    adultcount = adultcount - 1;
-                                  }
-                                });
-                              },
-                              style: ButtonStyle(
-                                  alignment: AlignmentDirectional.center,
-                                  backgroundColor:
-                                  MaterialStateProperty.all<Color>(
-                                      ColorConstants.iconColror)),
-                              child: Container(
-                                padding: EdgeInsets.only(right: Diamensions.width5*3,bottom: Diamensions.width5),
-                                child:  Text("-   ",
-                                    style: TextStyle(
-                                        color: ColorConstants.whitecolr,
-                                        fontSize: Diamensions.fontsize20)),
-                              ),
-                            ),
-                          ),
-                          Container(
-                              width: Diamensions.width40,
-                              height: Diamensions.height40,
-                              child: Text(
-                                " $adultcount",
-                                style:  TextStyle(
-                                    color: ColorConstants.iconColror,
-                                    fontSize: Diamensions.fontsize30),
-                              )),
-                          Container(
-                            width: Diamensions.width40,
-                            height: Diamensions.height40,
-                            margin:  EdgeInsets.only(left: Diamensions.width5,right: Diamensions.width5,top: Diamensions.height5,bottom: Diamensions.height5),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (adultcount <9) {
-                                    adultcount = adultcount + 1;
-                                  }
-                                });
-                              },
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                  MaterialStateProperty.all<Color>(
-                                      ColorConstants.iconColror)),
-                              child: Container(
-                                padding: EdgeInsets.only(right: Diamensions.width5*3,bottom: Diamensions.height5),
-                                child:  Text("+   ",
-                                    style: TextStyle(
-                                        color: ColorConstants.whitecolr,
-                                        fontSize: Diamensions.fontsize20)),
-                              ),
-                            ),
-                          )
-
-                        ],
-                      ),
-                    ),
-                    Flexible(
-                      child: Row(
-                        children: [
-                          Container(
-                              width: Diamensions.width53,
-                              height: Diamensions.height40,
-                              alignment: Alignment.center,
-                              // padding: EdgeInsets.only(top: Diamensions.height10),
-                              margin:  EdgeInsets.only(right: Diamensions.width10),
-                              child:  Text(
-                                "Child",
-                                style: TextStyle(
-                                    color: ColorConstants.iconColror, fontSize: Diamensions.fontsize16),
-                              )),
-                          Container(
-                            width: Diamensions.width40,
-                            height: Diamensions.height40,
-                            margin:  EdgeInsets.only(left: Diamensions.width5,right: Diamensions.width5,top: Diamensions.height5,bottom: Diamensions.height5),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (childcount > 0) {
-                                    childcount = childcount - 1;
-                                  }
-                                });
-                              },
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all<Color>(
-                                      ColorConstants.iconColror)),
-                              child: Container(
-                                padding: EdgeInsets.only(right: Diamensions.width5*3,bottom: Diamensions.width5),
-                                child:  Text("-   ",
-                                    style: TextStyle(
-                                        color: ColorConstants.whitecolr,
-                                        fontSize: Diamensions.fontsize20)),
-                              ),
-                            ),
-                          ),
-                          Container(
-                              width: Diamensions.width40,
-                              height: Diamensions.height40,
-                              child: Text(
-                                " $childcount",
-                                style:  TextStyle(
-                                    color: ColorConstants.iconColror, fontSize: Diamensions.fontsize30),
-                              )),
-                          Container(
-                            width: Diamensions.width40,
-                            height: Diamensions.height40,
-                            margin:  EdgeInsets.only(left: Diamensions.width5,right: Diamensions.width5,top: Diamensions.height5,bottom: Diamensions.height5),
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (childcount <9 ) {
-                                      childcount = childcount + 1;
-                                    }
-                                  });
-                                },
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<Color>(
-                                        ColorConstants.iconColror)),
-                                child:  Container(
-                                  padding: EdgeInsets.only(right: Diamensions.width5*3,bottom: Diamensions.height5),
-                                  child:  Text("+   ",
-                                      style: TextStyle(
-                                          color: ColorConstants.whitecolr,
-                                          fontSize: Diamensions.fontsize20)),
-                                )
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Flexible(
-                      child: Row(
-                        children: [
-                          Container(
-                              width: Diamensions.width53,
-                              height: Diamensions.height40,
-                              alignment: Alignment.center,
-                              margin:  EdgeInsets.only(left: Diamensions.width5,right: Diamensions.width5,top: Diamensions.height5,bottom: Diamensions.height5),
-                              child:  Text(
-                                "Infants",
-                                style: TextStyle(
-                                    color: ColorConstants.iconColror, fontSize: Diamensions.fontsize16),
-                              )
-                          ),
-                          Container(
-                            width: Diamensions.width40,
-                            height: Diamensions.height40,
-                            margin:  EdgeInsets.only(left: Diamensions.width5,right: Diamensions.width5,top: Diamensions.height5,bottom: Diamensions.height5),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (infantcount > 0) {
-                                    infantcount = infantcount - 1;
-                                  }
-                                });
-                              },
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                  MaterialStateProperty.all<Color>(
-                                      ColorConstants.iconColror)),
-                              child:  Container(
-                                padding: EdgeInsets.only(right: Diamensions.width5*3,bottom: Diamensions.width5),
-                                child:  Text("-   ",
-                                    style: TextStyle(
-                                        color: ColorConstants.whitecolr,
-                                        fontSize: Diamensions.fontsize20)),
-                              ),
-                            ),
-                          ),
-                          Container(
-                              width: Diamensions.width40,
-                              height: Diamensions.height40,
-                              child: Text(
-                                " $infantcount",
-                                style:  TextStyle(
-                                    color: ColorConstants.iconColror,
-                                    fontSize: Diamensions.fontsize30),
-                              )),
-                          Container(
-                            width: Diamensions.width40,
-                            height: Diamensions.height40,
-
-                            margin:  EdgeInsets.only(left: Diamensions.width5,right: Diamensions.width5,top: Diamensions.height5,bottom: Diamensions.height5),
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (infantcount < 9) {
-                                      infantcount = infantcount + 1;
-                                    }
-                                  });
-                                },
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        ColorConstants.iconColror)),
-                                child:  Container(
-                                  alignment: Alignment.center,
-                                  // padding: EdgeInsets.only(right: Diamensions.width5*3,bottom: Diamensions.height5),
-                                  child:  Text("+   ",
-                                      style: TextStyle(
-                                          color: ColorConstants.whitecolr,
-                                          fontSize: Diamensions.fontsize20)),
-                                )
-                            ),
-                          )
-
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    setState(() {
-                      dropdownvalueg = dropdownvalue;
-                      adultcountg = adultcount;
-                      childcountg = childcount;
-                      infantcountg = infantcount;
-                      passengerInfo =
-                      " $dropdownvalueg, A : $adultcountg, C: $childcountg, I: $infantcountg";
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text(
-                    "OK",
-                    style: TextStyle(color: ColorConstants.iconColror),
-                  )),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text(
-                    "Cancel",
-                    style: TextStyle(color: ColorConstants.iconColror),
-                  ))
-            ],
-          );
-        });
-  }
 }

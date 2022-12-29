@@ -446,7 +446,7 @@ var circularvisibility = false;
           ),
           Visibility(
             visible: circularvisibility,
-              child: CircularProgressIndicator(color: ColorConstants.greencolor,)
+              child: Center(child: CircularProgressIndicator(color: ColorConstants.greencolor,))
           ),
         ],
 
