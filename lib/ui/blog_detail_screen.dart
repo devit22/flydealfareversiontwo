@@ -21,7 +21,15 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
   final Completer<WebViewController> _controllerCompleter =
   Completer<WebViewController>();
 
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(seconds:3), (){
+      _controller.evaluateJavascript("document.getElementsByTagName('header')[0].style.display='none'");
+      // print("this is printing after 10 seconds");
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +67,16 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
           onWebViewCreated: (WebViewController webViewController) {
             _controllerCompleter.future.then((value) => _controller = value);
             _controllerCompleter.complete(webViewController);
-          }),
+          },
+        onPageFinished: (value){
+
+            _controller.evaluateJavascript("document.getElementsByTagName('header')[0].style.display='none'");
+
+
+        },
+
+          ),
+
     );
   }
 

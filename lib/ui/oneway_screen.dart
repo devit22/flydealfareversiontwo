@@ -606,7 +606,7 @@ var  deparvisibility = false;
                                   GestureDetector(
                                     onTap: (){
                                       setState(() {
-                                        if(infantcount >1){
+                                        if(infantcount >0){
                                           infantcount = infantcount-1;
                                         }
                                       });

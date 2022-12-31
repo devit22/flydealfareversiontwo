@@ -2,11 +2,13 @@
 import 'dart:math';
 
 import 'package:country_picker/country_picker.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:fly_deal_fare/colors_class/colors_class.dart';
 import 'package:fly_deal_fare/models/Data.dart';
 import 'package:fly_deal_fare/ui/chat_screen.dart';
 import 'package:fly_deal_fare/ui/deals_screen.dart';
@@ -26,7 +28,9 @@ import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   Data? loggedindata;
-   HomeScreen({Key? key, this.loggedindata}) : super(key: key);
+  final int? pageIndex;
+  final bool? iscomponentload;
+   HomeScreen({Key? key, this.loggedindata,this.pageIndex,this.iscomponentload}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -34,40 +38,41 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var pageIndex = 0;
+  var bottomindex = 0;
 var  pages = [];
+var bottompages = [];
+  var iscomponentload = true;
   String url = "https://v2.zopim.com/widget/livechat.html?api_calls=%5B%5D&hostname=flydealfare.com&key=3Em35GdwEBlCExa7X0KZN0silzvPrqZA&lang=en&";
 late FirebaseAuth auth;
-  // static const String androidChannelKey =
-  //     "eyJzZXR0aW5nc191cmwiOiJodHRwczovL3VjbWFzc25ldHRvbmljcy56ZW5kZXNrLmNvbS9tb2JpbGVfc2RrX2FwaS9zZXR0aW5ncy8wMUc3WEpNRUg0UkdIMDg1QkdBMlg1MzJONi5qc29uIn0=";
-  // static const String iosChannelKey =
-  //     "eyJzZXR0aW5nc191cmwiOiJodHRwczovL3VjbWFzc25ldHRvbmljcy56ZW5kZXNrLmNvbS9tb2JpbGVfc2RrX2FwaS9zZXR0aW5ncy8wMUc4SllHUFFCUEVIRkJaQlJOWUJWOU1ZVi5qc29uIn0=";
-  // final List<String> channelMessages = [];
+
 
   @override
   void initState() {
-    super.initState();
-     auth = FirebaseAuth.instance;
-     pages = [
+    auth = FirebaseAuth.instance;
+
+    pages = [
+      MyAccount(loggedInuser: widget.loggedindata,),
+      Settings(),
+      NotificationScreen(),
+      ChatScreen(chaturl: url,),
+      TravelUpdateScreen()
+    ];
+    bottompages =[
       Search(),
       Reward(),
       MyTrips(),
       Deals(),
-      MyAccount(loggedInuser: widget.loggedindata,),
-      Settings(),
-      NotificationScreen(),
-       ChatScreen(chaturl: url,),
-       TravelUpdateScreen()
     ];
-  //  print(" welcome! ${widget.data!.name}");
-   
-    // ZendeskMessaging.initialize(
-    //     androidChannelKey: androidChannelKey, iosChannelKey: iosChannelKey);
-    //  Optional, observe all incoming messages
-    // ZendeskMessaging.setMessageHandler((type, arguments) {
-    //   setState(() {
-    //     channelMessages.add("$type - args=$arguments");
-    //   });
-    // });
+    if (!(widget.pageIndex == 0 && widget.iscomponentload == false)) {
+      pageIndex = widget.pageIndex!;
+      iscomponentload = widget.iscomponentload!;
+    }
+    super.initState();
+
+
+
+
+
   }
 
   @override
@@ -133,7 +138,8 @@ late FirebaseAuth auth;
                 ),
                 onTap: () {
                   setState(() {
-                    pageIndex = 4;
+                    pageIndex = 0;
+                    iscomponentload=false;
                   });
                   Navigator.pop(context);
                 },
@@ -149,7 +155,8 @@ late FirebaseAuth auth;
                 ),
                 onTap: () {
                   setState(() {
-                    pageIndex = 5;
+                    pageIndex = 1;
+                    iscomponentload=false;
                   });
                   Navigator.pop(context);
                 },
@@ -165,7 +172,8 @@ late FirebaseAuth auth;
                 ),
                 onTap: () {
                   setState(() {
-                    pageIndex = 6;
+                    pageIndex = 2;
+                    iscomponentload=false;
                   });
                   Navigator.pop(context);
                 },
@@ -181,7 +189,8 @@ late FirebaseAuth auth;
                 ),
                 onTap: () {
                   setState(() {
-                    pageIndex = 7;
+                    pageIndex = 3;
+                    iscomponentload=false;
                   });
                   Navigator.pop(context);
                 },
@@ -197,7 +206,8 @@ late FirebaseAuth auth;
                 ),
                 onTap: () {
                   setState(() {
-                    pageIndex = 8;
+                    pageIndex = 4;
+                    iscomponentload=false;
                   });
                   Navigator.pop(context);
                 },
@@ -222,73 +232,62 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => LogInScreen()))
             ],
           ),
         ),
-        bottomNavigationBar: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                  enableFeedback: false,
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 0;
-                    });
-                  },
-                  icon: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: Image.asset(
-                        'assets/images/search_large.png',
-                        color: Colors.blue,
-                      ))),
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {
-                  setState(() {
-                    pageIndex = 1;
-                  });
-                },
-                icon: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: Image.asset(
-                      'assets/images/reward_large.png',
-                      color: Colors.blue,
-                    )),
-              ),
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {
-                  setState(() {
-                    pageIndex = 2;
-                  });
-                },
-                icon: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: Image.asset(
-                      'assets/images/trip_large.png',
-                      color: Colors.blue,
-                    )),
-              ),
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {
-                  setState(() {
-                    pageIndex = 3;
-                  });
-                },
-                icon: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: Image.asset(
-                      'assets/images/deal_large.png',
-                      color: Colors.blue,
-                    )),
-              ),
-            ],
-          ),
+        bottomNavigationBar: CurvedNavigationBar(
+          index: bottomindex,
+          height: Diamensions.height58,
+          items: <Widget>[
+            SizedBox(
+                height: 20,
+                width: 20,
+                child: Image.asset(
+                  'assets/images/search_large.png',
+                  color: ColorConstants.whitecolr,
+                )
+            ),
+            SizedBox(
+                height: 20,
+                width: 20,
+                child: Image.asset(
+                  'assets/images/reward_large.png',
+                  color: ColorConstants.whitecolr,
+                )
+            ),
+            SizedBox(
+                height: 20,
+                width: 20,
+                child: Image.asset(
+                  'assets/images/trip_large.png',
+                  color: ColorConstants.whitecolr,
+                )
+            ),
+            SizedBox(
+                height: 20,
+                width: 20,
+                child: Image.asset(
+                  'assets/images/deal_large.png',
+                  color: ColorConstants.whitecolr,
+                )
+            )
+          ],
+          color: ColorConstants.backgroundColor,
+          buttonBackgroundColor: ColorConstants.iconColror,
+          backgroundColor: Colors.white,
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 600),
+          onTap: (index) {
+
+
+            setState(() {
+              bottomindex = index;
+              iscomponentload = true;
+            });
+          },
+          letIndexChange: (index) => true,
         ),
-        body: pages[pageIndex]);
+       // body: pages[pageIndex]);
+
+
+    body: (iscomponentload) ? bottompages[bottomindex] : pages[pageIndex]);
   }
 
   void _showPopupMenu(Offset offset) async{

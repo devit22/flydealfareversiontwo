@@ -50,6 +50,16 @@ fetchdata();
                     child: Column(
                       children: [
                         Container(
+                          alignment: Alignment.centerRight,
+                          height: Diamensions.height145*2,
+                          width: MediaQuery.of(context).size.width,
+                          foregroundDecoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage("${bloglist[position].image}"),
+                                fit: BoxFit.fill),
+                          ),
+                        ),
+                        Container(
                           padding:EdgeInsets.symmetric(horizontal: Diamensions.width5,vertical: Diamensions.height5),
                           child: Text(
                               "${bloglist[position].title}",
@@ -58,18 +68,9 @@ fetchdata();
                             ),
                           ),
                         ),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    height: Diamensions.height145*2,
-                    width: MediaQuery.of(context).size.width,
-                    foregroundDecoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage("${bloglist[position].image}"),
-                          fit: BoxFit.fill),
-                    ),
-                  ),
+
                         Container(
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.center,
                           padding: EdgeInsets.symmetric(horizontal: Diamensions.width10,vertical: Diamensions.height5),
                           child: FloatingActionButton.extended(
                             heroTag: "$position",

@@ -771,7 +771,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               borderRadius: BorderRadius.all(Radius.circular(20)))),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>  HomeScreen(loggedindata: loggedInUser,)));
+                            builder: (context) =>  HomeScreen(loggedindata: loggedInUser,pageIndex: 0,iscomponentload: true,)));
                       },
                       child: const Text(
                         " Sign In As Guest",
