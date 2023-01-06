@@ -58,7 +58,7 @@ class _FlightsState extends State<Flights> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(
                     25.0,
                   ),
-                  color: Colors.green,
+                  color: ColorConstants.greencolor,
                 ),
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.black,

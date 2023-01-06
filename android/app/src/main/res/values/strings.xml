@@ -2,7 +2,9 @@
 <resources>
 
     <string name="app_name">FLY DEAL FARE</string>
-    <string name="facebook_app_id">596903988305779</string>
+    facebook_application_id
+<!--    <string name="facebook_app_id">596903988305779</string>-->
+    <string name="facebook_application_id">596903988305779</string>
     <string name="fb_login_protocol_scheme">fb596903988305779</string>
     <string name="facebook_client_token">70fce6d00883b5f2b0d95c78ccb40eec</string>
 

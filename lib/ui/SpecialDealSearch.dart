@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fly_deal_fare/colors_class/colors_class.dart';
 import 'package:fly_deal_fare/utils/diamensions.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 class SpecialDealSearch extends StatefulWidget {
   final String? isoneway;
@@ -13,8 +15,32 @@ class SpecialDealSearch extends StatefulWidget {
 }
 
 class _SpecialDealSearchState extends State<SpecialDealSearch> {
+  String country = "";
 
 
+  Future<Position> getuserCurrentLocation() async{
+
+    await Geolocator.requestPermission().then((value){
+      print("Permission Granted");
+    }).onError((error, stackTrace){
+      print("error => ${error.toString()}");
+    });
+
+    return await Geolocator.getCurrentPosition();
+  }
+  @override
+  void initState() {
+  getcurrentcountry();
+    super.initState();
+  }
+
+  Future<void> getcurrentcountry() async{
+    getuserCurrentLocation().then((value) async{
+      List<Placemark> _placemak = await placemarkFromCoordinates(value.latitude, value.longitude);
+      country = _placemak.reversed.last.country.toString();
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,12 +71,12 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
 
                 child: Material(
                   elevation: Diamensions.width10,
-                  borderRadius: BorderRadius.all(Radius.circular(Diamensions.width40)
+                  borderRadius: BorderRadius.all(Radius.circular(Diamensions.width10)
                   ),
                   child: Container(
                     decoration: BoxDecoration(
                         color: ColorConstants.whitecolr,
-                        borderRadius: BorderRadius.all(Radius.circular(Diamensions.width40)
+                        borderRadius: BorderRadius.all(Radius.circular(Diamensions.width10)
                         )
                     ),
                     padding: EdgeInsets.symmetric(vertical: Diamensions.height10),
@@ -79,7 +105,7 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
                               children: [
                                 Container(
                                   margin:EdgeInsets.only(left: Diamensions.width10,bottom: Diamensions.width10),
-                                  child: Text("\$700 *",style: TextStyle(
+                                  child: Text("\$7000 *",style: TextStyle(
                                       color: ColorConstants.backgroundColor,
                                       fontSize: Diamensions.fontsize30-Diamensions.fontsize5
                                   ),
@@ -142,7 +168,14 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
                         ),
                         GestureDetector(
                           onTapDown: (TapDownDetails details){
-                            _showPopupMenu();
+
+                            if(country == "India"){
+                              FlutterPhoneDirectCaller.callNumber("+919814614000");
+                            }else if(country == "Canada"){
+                              FlutterPhoneDirectCaller.callNumber("+18662145391");
+                            }else{
+                              FlutterPhoneDirectCaller.callNumber("+18777711620");
+                            }
                           },
                           child: Container(
                             height: 58,
@@ -198,92 +231,5 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
       ),
     );
   }
-  void _showPopupMenu() async{
 
-    await showMenu(context: context,
-      constraints: BoxConstraints(
-          maxWidth: 135,
-          maxHeight: 200
-      ),
-      position: RelativeRect.fromLTRB(-130, 200, 0, 0),
-      items: [
-        PopupMenuItem(
-          value: 2,
-          child: Row(
-            children: [
-              SizedBox(
-                height: 40,
-                width: 40,
-                child: Image.asset("assets/images/fly_deal_fare_icon_canada.png"),
-              ),
-              Flexible(
-                  child: Container(
-                      margin: EdgeInsets.only(left: Diamensions.width5),
-                      child: Text("Canada"))
-              )
-            ],
-
-          ),
-
-        ),
-        PopupMenuItem(
-          value: 1,
-          child: Row(
-            children: [
-              SizedBox(
-                height: 40,
-                width: 40,
-                child: Image.asset("assets/images/fly_deal_farc_icon_india.png"),
-              ),
-              Flexible(
-                  child: Container(
-                      margin: EdgeInsets.only(left: Diamensions.width5),
-                      child: Text("India")
-                  )
-              )
-            ],
-
-          ),
-
-        ),
-
-        PopupMenuItem(
-          value: 3,
-          child: Row(
-            children: [
-              SizedBox(
-                height: 40,
-                width: 40,
-                child: Image.asset("assets/images/fly_deal_fare_icon_usa.png"),
-              ),
-              Flexible(
-                  child: Container(
-                      margin: EdgeInsets.only(left: Diamensions.width5),
-                      child: Text("USA")
-                  )
-              )
-            ],
-
-          ),
-
-        ),
-      ],
-      elevation: 8.0,
-    ).then((value) {
-
-      if(value != null){
-        switch(value){
-          case 1:
-            FlutterPhoneDirectCaller.callNumber("+919814614000");
-            break;
-          case 2:
-            FlutterPhoneDirectCaller.callNumber("+18662145391");
-            break;
-          case 3:
-            FlutterPhoneDirectCaller.callNumber("+18777711620");
-            break;
-        }
-      }
-    });
-  }
 }

@@ -24,7 +24,9 @@ import 'package:fly_deal_fare/ui/travel_update_screen.dart';
 import 'package:fly_deal_fare/utils/diamensions.dart';
 import 'package:get/get.dart';
 
-
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   Data? loggedindata;
@@ -42,12 +44,29 @@ class _HomeScreenState extends State<HomeScreen> {
 var  pages = [];
 var bottompages = [];
   var iscomponentload = true;
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   String url = "https://v2.zopim.com/widget/livechat.html?api_calls=%5B%5D&hostname=flydealfare.com&key=3Em35GdwEBlCExa7X0KZN0silzvPrqZA&lang=en&";
 late FirebaseAuth auth;
+String country = "";
 
+Future<Position> getuserCurrentLocation() async{
 
+  await Geolocator.requestPermission().then((value){
+    print("Permission Granted");
+  }).onError((error, stackTrace){
+    print("error => ${error.toString()}");
+  });
+
+  return await Geolocator.getCurrentPosition();
+}
   @override
   void initState() {
+
+
+  getuserCurrentLocation().then((value) {
+    print(" ${value.latitude} and ${value.longitude} ");
+  });
+
     auth = FirebaseAuth.instance;
 
     pages = [
@@ -74,6 +93,7 @@ late FirebaseAuth auth;
 
 
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +242,7 @@ late FirebaseAuth auth;
                   style: TextStyle(color: Colors.blue),
                 ),
                 onTap: () {
-                  auth.signOut();
+                  //auth.signOut();
 FacebookAuth.instance.logOut().then((value) => {
 Navigator.push(context, MaterialPageRoute(builder: (context) => LogInScreen()))
 });
@@ -233,45 +253,46 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => LogInScreen()))
           ),
         ),
         bottomNavigationBar: CurvedNavigationBar(
+          key: _bottomNavigationKey,
           index: bottomindex,
           height: Diamensions.height58,
           items: <Widget>[
-            SizedBox(
+            Container(
                 height: 20,
                 width: 20,
                 child: Image.asset(
                   'assets/images/search_large.png',
-                  color: ColorConstants.whitecolr,
+                  color: Colors.black,
                 )
             ),
-            SizedBox(
+            Container(
                 height: 20,
                 width: 20,
                 child: Image.asset(
                   'assets/images/reward_large.png',
-                  color: ColorConstants.whitecolr,
+                  color: Colors.black,
                 )
             ),
-            SizedBox(
+            Container(
                 height: 20,
                 width: 20,
                 child: Image.asset(
                   'assets/images/trip_large.png',
-                  color: ColorConstants.whitecolr,
+                  color: Colors.black,
                 )
             ),
-            SizedBox(
+            Container(
                 height: 20,
                 width: 20,
                 child: Image.asset(
                   'assets/images/deal_large.png',
-                  color: ColorConstants.whitecolr,
+                  color:Colors.black,
                 )
             )
           ],
-          color: ColorConstants.backgroundColor,
-          buttonBackgroundColor: ColorConstants.iconColror,
-          backgroundColor: Colors.white,
+          color: ColorConstants.whitecolr,
+          buttonBackgroundColor: ColorConstants.whitecolr,
+          backgroundColor: ColorConstants.backgroundColor,
           animationCurve: Curves.easeInOut,
           animationDuration: Duration(milliseconds: 600),
           onTap: (index) {

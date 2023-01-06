@@ -16,131 +16,145 @@ class Reward extends StatelessWidget {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: Diamensions.height10,
-            ),
-            Container(
-                alignment: Alignment.center,
-                child: Text("Referral Bonus Programme",
-                  style: TextStyle(
-                      color: ColorConstants.backgroundColor,
-                      fontSize: Diamensions.fontsize30-Diamensions.fontsize5,
-                      decoration: TextDecoration.underline
-                  ),
-                )
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
+        child: Container(
+          color: ColorConstants.backgroundColor,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: Diamensions.height10,
+              ),
+              Container(
+                  alignment: Alignment.center,
+                  child: Text("Referral Bonus Programme",
+                    style: TextStyle(
+                        color: ColorConstants.whitecolr,
+                        fontSize: Diamensions.fontsize30-Diamensions.fontsize5,
+                        decoration: TextDecoration.underline
+                    ),
+                  )
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
 
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: Diamensions.height10,vertical: Diamensions.height5),
-                child: Card(
-                  elevation: 10,
-                  color: ColorConstants.greencolor,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Diamensions.width10,vertical: Diamensions.height5),
-                    child: Column(
-                      children: [
-                        Text("Refer us with a contact to your friend if he book a ticket with us we will give you  \$20 refferal bonus",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: Diamensions.fontsize17,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: Diamensions.height10,vertical: Diamensions.height5),
+                  child: Card(
+                    elevation: 10,
+                    color: ColorConstants.whitecolr,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: Diamensions.width10,vertical: Diamensions.height5),
+                      child: Column(
+                        children: [
+                          Text("Refer us with a contact to your friend if he book a ticket with us we will give you  \$20 refferal bonus",
+                            style: TextStyle(
+                              color: ColorConstants.backgroundColor,
+                              fontSize: Diamensions.fontsize17,
+
+                            ),
 
                           ),
+                          TextButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ReferralFormScreen()));
+                          },
+                              child:Text("Ok, Refering to Friend",
+                                style: TextStyle(
+                                    color: ColorConstants.backgroundColor,
+                                    fontSize: Diamensions.fontsize17,
+                                    decoration: TextDecoration.underline
+                                ),
 
-                        ),
-                        TextButton(onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ReferralFormScreen()));
-                        },
-                            child:Text("Ok, Refering to Friend",
-                              style: TextStyle(
-                                  color: ColorConstants.backgroundColor,
-                                  fontSize: Diamensions.fontsize17,
-                                  decoration: TextDecoration.underline
-                              ),
-
-                            )
-                        )
-                      ],
+                              )
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: Diamensions.height5),
-              child: Text("Previous Refferral",
-                style: TextStyle(
-                    fontSize: 23,
-                    decoration: TextDecoration.underline,
-                    color: ColorConstants.backgroundColor
+              Container(
+                padding: EdgeInsets.symmetric(vertical: Diamensions.height5),
+                child: Text("Previous Refferral",
+                  style: TextStyle(
+                      fontSize: 23,
+                      decoration: TextDecoration.underline,
+                      color: ColorConstants.whitecolr
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: Diamensions.height10,
-            ),
-            Container(
-              child: ListView.builder(
-                 physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 12,
-                  itemBuilder: (context, position) {
-                    return Container(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: Diamensions.width10),
-                        child: Card(
-                          child: Column(
-                            children: [
-                             Row(
-                               mainAxisSize: MainAxisSize.max,
-                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                               children: [
-                                 Column(
-                                   children: [
-                                      Container(
-                                        margin: EdgeInsets.only(left: Diamensions.width10,top: Diamensions.height5,bottom: Diamensions.height5),
-                                        child: Text("Rajesh Kumar",style: TextStyle(
-                                          fontSize: Diamensions.fontsize20
-                                        ),),
-                                      ),
-                                     Container(
-                                       margin: EdgeInsets.only(left: Diamensions.width10,bottom: Diamensions.height5),
-                                       child: Text("2023/03/04",style: TextStyle(
-                                           fontSize: Diamensions.fontsize17
+              SizedBox(
+                height: Diamensions.height10,
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: Diamensions.height10),
+                child: ListView.builder(
+                   physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 12,
+                    itemBuilder: (context, position) {
+                      return Container(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: Diamensions.width10),
+                          child: Card(
+                            child: Column(
+                              children: [
+                               Row(
+                                 mainAxisSize: MainAxisSize.max,
+                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                 children: [
+                                   Column(
+                                     children: [
+                                        Container(
+                                          margin: EdgeInsets.only(left: Diamensions.width10,top: Diamensions.height5,bottom: Diamensions.height5),
+                                          child: Text("Rajesh Kumar",style: TextStyle(
+                                            fontSize: Diamensions.fontsize20
+                                          ),),
+                                        ),
+                                       Container(
+                                         margin: EdgeInsets.only(left: Diamensions.width10,bottom: Diamensions.height5),
+                                         child: Text("2023/03/04",style: TextStyle(
+                                             fontSize: Diamensions.fontsize17
+                                         ),),
+                                       ),
+                                     ],
+                                   ),
+
+                                   Container(
+                                     margin: EdgeInsets.only(right: Diamensions.width10*2),
+                                     child: (position%2==1)? Text("Submitted",style: TextStyle(
+                                       color: ColorConstants.greencolor
+                                     ),):SizedBox(
+                                       child:Text("!Pending",style: TextStyle(
+                                         color: Colors.red
                                        ),),
                                      ),
-                                   ],
-                                 ),
+                                   )
+                                   // Container(
+                                   //   margin: EdgeInsets.only(right: Diamensions.width10*2),
+                                   //   child: (position%2==1)? SizedBox(
+                                   //     height: Diamensions.height40,
+                                   //     width: Diamensions.width40,
+                                   //     child: Image.asset("assets/images/correct.png"),
+                                   //   ):SizedBox(
+                                   //     height: Diamensions.height40,
+                                   //     width: Diamensions.width40,
+                                   //     child: Image.asset("assets/images/remove.png"),
+                                   //   ),
+                                   // )
 
-                                 Container(
-                                   margin: EdgeInsets.only(right: Diamensions.width10*2),
-                                   child: (position%2==1)? SizedBox(
-                                     height: Diamensions.height40,
-                                     width: Diamensions.width40,
-                                     child: Image.asset("assets/images/correct.png"),
-                                   ):SizedBox(
-                                     height: Diamensions.height40,
-                                     width: Diamensions.width40,
-                                     child: Image.asset("assets/images/remove.png"),
-                                   ),
-                                 )
-
-                               ],
-                             )
-                            ],
+                                 ],
+                               )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }),
-            )
+                      );
+                    }),
+              )
 
 
-          ],
+            ],
+          ),
         ),
       ),
 

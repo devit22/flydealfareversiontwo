@@ -34,6 +34,18 @@ class _DealsState extends State<Deals> {
   String startDateText = "Depart Date";
   String endDateText = "Return Date";
 TypeOfWay _typeOfWay = TypeOfWay.one;
+
+  var adultcount = 1;
+  var childcount = 0;
+  var infantcount =0;
+  String dropdownvalue = 'Economy';
+  var items = [
+    'Economy',
+    'First',
+    'Business',
+    'Premium',
+  ];
+
   @override
   Widget build(BuildContext context) {
     var i =0;
@@ -277,6 +289,64 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
                   SizedBox(
                     height: Diamensions.height10,
                   ),
+                  Container(
+                    width: Diamensions.width310,
+                    child: TextFormField(
+
+                      style: const TextStyle(color: ColorConstants.whitecolr),
+                      decoration: const InputDecoration(
+                        labelText: 'Enter email',
+                        labelStyle: TextStyle(color: ColorConstants.whitecolr),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: ColorConstants.whitecolr, width: 2.0),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: ColorConstants.whitecolr, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: ColorConstants.whitecolr, width: 2.0)),
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: ColorConstants.whitecolr,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: Diamensions.height10,
+                  ),
+                  Container(
+                    width: Diamensions.width310,
+                    child: TextFormField(
+
+                      style: const TextStyle(color: ColorConstants.whitecolr),
+                      decoration: const InputDecoration(
+                        labelText: 'Enter Name',
+                        labelStyle: TextStyle(color: ColorConstants.whitecolr),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: ColorConstants.whitecolr, width: 2.0),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: ColorConstants.whitecolr, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: ColorConstants.whitecolr, width: 2.0)),
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: ColorConstants.whitecolr,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: Diamensions.height10,
+                  ),
                 //number
                   Container(
                     height: 62.5,
@@ -396,8 +466,7 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
                         Container(
                             height: Diamensions.width53,
                             width: Diamensions.width145,
-                            margin:  EdgeInsets.only(
-                                right: Diamensions.width5, top: Diamensions.height5, bottom: Diamensions.height5),
+                            margin:  EdgeInsets.only(right: Diamensions.width5,bottom: Diamensions.height5),
                             child: OutlinedButton.icon(
                               style: OutlinedButton.styleFrom(
                                   fixedSize: const Size(50, 40),
@@ -425,7 +494,7 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
 
                               height: Diamensions.width53,
                               margin:  EdgeInsets.only(
-                                  left: Diamensions.width10,  top: Diamensions.height5, bottom: Diamensions.height5),
+                                  left: Diamensions.width10, bottom: Diamensions.height5),
                               child: OutlinedButton.icon(
                                 style: OutlinedButton.styleFrom(
                                     fixedSize: const Size(50, 40),
@@ -452,7 +521,329 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
                     ),
                   ),
 
+                  SizedBox(
+                    height: Diamensions.height10,
+                  ),
+                  Container(
+                    width: Diamensions.width310,
+                    height: Diamensions.height53-Diamensions.height5,
+                    margin:  EdgeInsets.only(left: Diamensions.width10, right: Diamensions.width10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        border: Border.all(width: 2,color: Colors.white)
+                    ),
+                    child: DropdownButton(
 
+
+                      // Initial Value
+                      value: dropdownvalue,
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: ColorConstants.whitecolr,
+                      ),
+                      isExpanded: true,
+                      selectedItemBuilder: (BuildContext context) { //<-- SEE HERE
+                        return <String>[
+                          'Economy',
+                          'First',
+                          'Business',
+                          'Premium',
+                        ]
+                            .map((String value) {
+                          return Center(
+                            child: Text(dropdownvalue,
+                              style:  TextStyle(color: Colors.white, fontSize: Diamensions.fontsize17),
+                            ),
+                          );
+                        }).toList();
+                      },
+                      underline: Container(height: 2,color: ColorConstants.backgroundColor,),
+                      alignment: Alignment.center,
+                      // Array list of items
+                      items: items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(
+                            items,
+                            style: const TextStyle(
+                                color: ColorConstants.iconColror,
+                                fontSize: 17),
+                          ),
+                        );
+                      }).toList(),
+                      // After selecting the desired option,it will
+                      // change button value to selected value
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownvalue = newValue!;
+                        });
+                      },
+                    ),
+                  ),
+                  //Passanger Layout
+                  Container(
+                    width: Diamensions.width310+Diamensions.width10*3,
+                    padding: EdgeInsets.only(left: Diamensions.width10+Diamensions.width5,right: Diamensions.width10+Diamensions.width5),
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+
+                          margin: const EdgeInsets.only( top: 10, bottom: 5),
+                          child: Stack(
+                            children: [
+
+                              Container(
+                                padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
+                                margin: EdgeInsets.only(top: Diamensions.height5),
+                                decoration:  BoxDecoration(
+                                    border: Border.all(width: 1.3,color: Colors.white),
+                                    borderRadius: BorderRadius.circular(6.0)
+
+                                ),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          if(adultcount >1){
+                                            adultcount = adultcount-1;
+                                          }
+                                        });
+                                      },
+                                      child: Card(
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: Diamensions.width5*4,
+                                          height: Diamensions.width5*4,
+                                          margin:  EdgeInsets.all(Diamensions.width1*2),
+                                          child: Center(
+                                            child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                        width: Diamensions.width10*3-5,
+                                        height: Diamensions.height10*3-5,
+                                        child: Center(
+                                          child: Text(
+                                            "$adultcount",
+                                            style:  TextStyle(
+                                                color: ColorConstants.whitecolr,
+                                                fontSize: Diamensions.fontsize17),
+                                          ),
+                                        )),
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+
+                                          adultcount = adultcount+1;
+
+                                        });
+                                      },
+                                      child: Card(
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: Diamensions.width5*4,
+                                          height: Diamensions.width5*4,
+                                          margin:  EdgeInsets.all(Diamensions.width1*2),
+                                          child: Center(
+                                            child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                  child: Container(
+                                    color: ColorConstants.backgroundColor,
+                                    child: Text("Adult",style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  left: Diamensions.width10*3,
+                                  bottom: Diamensions.height40-Diamensions.height1*2
+
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: Diamensions.height5,
+                        ),
+                        Container(
+
+                          margin: const EdgeInsets.only( top: 10, bottom: 5),
+                          child: Stack(
+                            children: [
+
+                              Container(
+                                padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
+                                margin: EdgeInsets.only(top: Diamensions.height5),
+                                decoration:  BoxDecoration(
+                                    border: Border.all(width: 1.3,color: Colors.white),
+                                    borderRadius: BorderRadius.circular(6.0)
+
+                                ),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          if(childcount >0){
+                                            childcount = childcount-1;
+                                          }
+                                        });
+                                      },
+                                      child: Card(
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: Diamensions.width5*4,
+                                          height: Diamensions.width5*4,
+                                          margin:  EdgeInsets.all(Diamensions.width1*2),
+                                          child: Center(
+                                            child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                        width: Diamensions.width10*3-5,
+                                        height: Diamensions.height10*3-5,
+                                        child: Center(
+                                          child: Text(
+                                            "$childcount",
+                                            style:  TextStyle(
+                                                color: ColorConstants.whitecolr,
+                                                fontSize: Diamensions.fontsize17),
+                                          ),
+                                        )),
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+
+                                          childcount = childcount+1;
+
+                                        });
+                                      },
+                                      child: Card(
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: Diamensions.width5*4,
+                                          height: Diamensions.width5*4,
+                                          margin:  EdgeInsets.all(Diamensions.width1*2),
+                                          child: Center(
+                                            child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                  child: Container(
+                                    color: ColorConstants.backgroundColor,
+                                    child: Text("Child",style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  left: Diamensions.width10*3,
+                                  bottom: Diamensions.height40-Diamensions.height1*2
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: Diamensions.height5,
+                        ),
+                        Container(
+
+                          margin: const EdgeInsets.only( top: 10, bottom: 5),
+                          child: Stack(
+                            children: [
+
+                              Container(
+                                padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
+                                margin: EdgeInsets.only(top: Diamensions.height5),
+                                decoration:  BoxDecoration(
+                                    border: Border.all(width: 1.3,color: Colors.white),
+                                    borderRadius: BorderRadius.circular(6.0)
+
+                                ),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          if(infantcount >0){
+                                            infantcount = infantcount-1;
+                                          }
+                                        });
+                                      },
+                                      child: Card(
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: Diamensions.width5*4,
+                                          height: Diamensions.width5*4,
+                                          margin:  EdgeInsets.all(Diamensions.width1*2),
+                                          child: Center(
+                                            child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                        width: Diamensions.width10*3-5,
+                                        height: Diamensions.height10*3-5,
+                                        child: Center(
+                                          child: Text(
+                                            "$infantcount",
+                                            style:  TextStyle(
+                                                color: ColorConstants.whitecolr,
+                                                fontSize: Diamensions.fontsize17),
+                                          ),
+                                        )),
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+
+                                          infantcount = infantcount+1;
+
+                                        });
+                                      },
+                                      child: Card(
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: Diamensions.width5*4,
+                                          height: Diamensions.width5*4,
+                                          margin:  EdgeInsets.all(Diamensions.width1*2),
+                                          child: Center(
+                                            child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                  child: Container(
+                                    color: ColorConstants.backgroundColor,
+                                    child: Text("Infant",style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  left: Diamensions.width10*3,
+                                  bottom: Diamensions.height40-Diamensions.height1*2
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: Diamensions.height10,
                   ),
@@ -472,6 +863,7 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
                   SizedBox(
                     height: Diamensions.height10,
                   ),
+
                 ],
               ),
             ),

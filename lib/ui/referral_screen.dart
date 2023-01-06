@@ -83,6 +83,162 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
                     ),
                     Container(
                       width: Diamensions.width310,
+                      child: TypeAheadField<Output?>(
+                        loadingBuilder: (context){
+                          return SizedBox(
+                            height: Diamensions.height10*5,
+                            child: const Center(child: CircularProgressIndicator(
+                              color: ColorConstants.backgroundColor,
+                            )
+                            ),
+                          );
+                        },
+                        minCharsForSuggestions: 3,
+                        hideSuggestionsOnKeyboardHide: true,
+                        textFieldConfiguration: TextFieldConfiguration(
+                            style: const TextStyle(color: ColorConstants.whitecolr),
+                            controller: TextEditingController(
+                                text: (isPressed) ? departSuggestionValue : ""),
+                            decoration: InputDecoration(
+                                hintText: departSuggestionValue,
+                                hintStyle:
+                                const TextStyle(color: ColorConstants.whitecolr),
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: ColorConstants.whitecolr, width: 2.0),
+                                ),
+                                disabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: ColorConstants.whitecolr, width: 2.0),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorConstants.whitecolr, width: 2.0)),
+                                prefixIcon: const Icon(
+                                  Icons.place_outlined,
+                                  color: ColorConstants.whitecolr,
+                                ))),
+                        suggestionsCallback: UserApiService.getupdatedairportlist,
+                        itemBuilder: (context, Output? suggestion) {
+                          final user = suggestion;
+
+                          i++;
+                          Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
+                          Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
+
+                          return Container(
+                            height: 30,
+                            color: colors,
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 5, top: 2.5, bottom: 2.5),
+                            child: Text(
+                              "${user?.name} (${user?.code})",
+                              style: TextStyle(color: textcolor, fontSize: 19),
+                            ),
+                          );
+                        },
+                        noItemsFoundBuilder: (context) => Container(
+                          height: 80,
+                          child: const Center(
+                            child: Text(
+                              'No user found',
+                              style: TextStyle(fontSize: 17, color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                        onSuggestionSelected: (Output? suggestion) {
+                          final user = suggestion!;
+                          setState(() {
+                            isPressed = true;
+                            departSuggestionValue = user.name!;
+                            departairportCode = user.code!;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: Diamensions.height10,
+                    ),
+                    Container(
+                      width: Diamensions.width310,
+                      child: TypeAheadField<Output?>(
+                        loadingBuilder: (context){
+                          return SizedBox(
+                            height: Diamensions.height10*5,
+                            child: const Center(child: CircularProgressIndicator(
+                              color: ColorConstants.backgroundColor,
+                            )
+                            ),
+                          );
+                        },
+                        minCharsForSuggestions: 3,
+                        hideSuggestionsOnKeyboardHide: true,
+                        textFieldConfiguration: TextFieldConfiguration(
+                            style: const TextStyle(color: ColorConstants.whitecolr),
+                            controller: TextEditingController(
+                                text: (isPressedDes) ? destinationSuggestionValue : ""),
+                            decoration: InputDecoration(
+                                hintText: destinationSuggestionValue,
+                                hintStyle:
+                                const TextStyle(color: ColorConstants.whitecolr),
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: ColorConstants.whitecolr, width: 2.0),
+                                ),
+                                disabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: ColorConstants.whitecolr, width: 2.0),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorConstants.whitecolr, width: 2.0)),
+                                prefixIcon: const Icon(
+                                  Icons.place_outlined,
+                                  color: ColorConstants.whitecolr,
+                                ))),
+                        suggestionsCallback: UserApiService.getupdatedairportlist,
+                        itemBuilder: (context, Output? suggestion) {
+                          final user = suggestion;
+
+                          i++;
+                          Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
+                          Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
+
+                          return Container(
+                            height: 30,
+                            color: colors,
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 5, top: 2.5, bottom: 2.5),
+                            child: Text(
+                              "${user?.name} (${user?.code})",
+                              style: TextStyle(color: textcolor, fontSize: 19),
+                            ),
+                          );
+                        },
+                        noItemsFoundBuilder: (context) => Container(
+                          height: 80,
+                          child: const Center(
+                            child: Text(
+                              'No user found',
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                        ),
+                        onSuggestionSelected: (Output? suggestion) {
+                          final user = suggestion!;
+                          setState(() {
+                            isPressedDes = true;
+                            destinationSuggestionValue = user.name!;
+                            destinationAirportCode = user.code!;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: Diamensions.height10,
+                    ),
+                    Container(
+                      width: Diamensions.width310,
 
                       child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
@@ -230,162 +386,6 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
                             ),
                           )
                         ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                      width: Diamensions.width310,
-                      child: TypeAheadField<Output?>(
-                        loadingBuilder: (context){
-                          return SizedBox(
-                            height: Diamensions.height10*5,
-                            child: const Center(child: CircularProgressIndicator(
-                              color: ColorConstants.backgroundColor,
-                            )
-                            ),
-                          );
-                        },
-                        minCharsForSuggestions: 3,
-                        hideSuggestionsOnKeyboardHide: true,
-                        textFieldConfiguration: TextFieldConfiguration(
-                            style: const TextStyle(color: ColorConstants.whitecolr),
-                            controller: TextEditingController(
-                                text: (isPressed) ? departSuggestionValue : ""),
-                            decoration: InputDecoration(
-                                hintText: departSuggestionValue,
-                                hintStyle:
-                                const TextStyle(color: ColorConstants.whitecolr),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                disabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: ColorConstants.whitecolr, width: 2.0)),
-                                prefixIcon: const Icon(
-                                  Icons.place_outlined,
-                                  color: ColorConstants.whitecolr,
-                                ))),
-                        suggestionsCallback: UserApiService.getupdatedairportlist,
-                        itemBuilder: (context, Output? suggestion) {
-                          final user = suggestion;
-
-                          i++;
-                          Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
-                          Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
-
-                          return Container(
-                            height: 30,
-                            color: colors,
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, top: 2.5, bottom: 2.5),
-                            child: Text(
-                              "${user?.name} (${user?.code})",
-                              style: TextStyle(color: textcolor, fontSize: 19),
-                            ),
-                          );
-                        },
-                        noItemsFoundBuilder: (context) => Container(
-                          height: 80,
-                          child: const Center(
-                            child: Text(
-                              'No user found',
-                              style: TextStyle(fontSize: 17, color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                        onSuggestionSelected: (Output? suggestion) {
-                          final user = suggestion!;
-                          setState(() {
-                            isPressed = true;
-                            departSuggestionValue = user.name!;
-                            departairportCode = user.code!;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                       width: Diamensions.width310,
-                      child: TypeAheadField<Output?>(
-                        loadingBuilder: (context){
-                          return SizedBox(
-                            height: Diamensions.height10*5,
-                            child: const Center(child: CircularProgressIndicator(
-                              color: ColorConstants.backgroundColor,
-                            )
-                            ),
-                          );
-                        },
-                        minCharsForSuggestions: 3,
-                        hideSuggestionsOnKeyboardHide: true,
-                        textFieldConfiguration: TextFieldConfiguration(
-                            style: const TextStyle(color: ColorConstants.whitecolr),
-                            controller: TextEditingController(
-                                text: (isPressedDes) ? destinationSuggestionValue : ""),
-                            decoration: InputDecoration(
-                                hintText: destinationSuggestionValue,
-                                hintStyle:
-                                const TextStyle(color: ColorConstants.whitecolr),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                disabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: ColorConstants.whitecolr, width: 2.0)),
-                                prefixIcon: const Icon(
-                                  Icons.place_outlined,
-                                  color: ColorConstants.whitecolr,
-                                ))),
-                        suggestionsCallback: UserApiService.getupdatedairportlist,
-                        itemBuilder: (context, Output? suggestion) {
-                          final user = suggestion;
-
-                          i++;
-                          Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
-                          Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
-
-                          return Container(
-                            height: 30,
-                            color: colors,
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, top: 2.5, bottom: 2.5),
-                            child: Text(
-                              "${user?.name} (${user?.code})",
-                              style: TextStyle(color: textcolor, fontSize: 19),
-                            ),
-                          );
-                        },
-                        noItemsFoundBuilder: (context) => Container(
-                          height: 80,
-                          child: const Center(
-                            child: Text(
-                              'No user found',
-                              style: TextStyle(fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        onSuggestionSelected: (Output? suggestion) {
-                          final user = suggestion!;
-                          setState(() {
-                            isPressedDes = true;
-                            destinationSuggestionValue = user.name!;
-                            destinationAirportCode = user.code!;
-                          });
-                        },
                       ),
                     ),
                     SizedBox(

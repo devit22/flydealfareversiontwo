@@ -5,6 +5,8 @@ import 'package:fly_deal_fare/ui/secret_deals.dart';
 
 import 'package:flutter/material.dart';
 
+import 'deals_screen.dart';
+
 class Search extends StatelessWidget {
   const Search({Key? key}) : super(key: key);
   TabBar get _tabBar => TabBar(
@@ -39,7 +41,7 @@ class Search extends StatelessWidget {
                 ),
               )),
           body: const TabBarView(
-            children: [Flights(), SecretDeals()],
+            children: [Flights(),Deals(),],
           ),
         ));
   }

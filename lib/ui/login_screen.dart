@@ -316,7 +316,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(20)))),
                             onPressed: () {
-                             facebooksignin(context);
+                            facebookloginfunction();
 
                             },
                             icon: SizedBox(
@@ -1090,6 +1090,27 @@ class _LogInScreenState extends State<LogInScreen> {
       // }
       // }
       // });
+    }
+  }
+
+  facebookloginfunction() async{
+    try{
+
+      final result = await FacebookAuth.instance.login(permissions: ['public_profile','email']);
+
+     // final result = await FacebookAuth.i.login(,loginBehavior: LoginBehavior.)
+      if(result.status == LoginStatus.success){
+        final userData = await FacebookAuth.i.getUserData();
+
+        UserApiService.getResgisterelinkList(
+            userData['email'], "Not Availble", userData['name'],
+            "Not Availble", "Facebook").then((value) {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => HomeScreen(loggedindata: loggedInUser,pageIndex: 0,iscomponentload: true,)));
+        });
+      }
+    }catch(error){
+      print("error => ${error.toString()}");
     }
   }
 }
