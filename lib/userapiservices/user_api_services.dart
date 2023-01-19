@@ -6,6 +6,7 @@ import 'package:fly_deal_fare/models/RegisterResponse.dart';
 import 'package:fly_deal_fare/models/ReturnRespons.dart';
 import 'package:fly_deal_fare/models/blogsmodel/BlogList.dart';
 import 'package:fly_deal_fare/models/output.dart';
+import 'package:fly_deal_fare/models/pricemodel/PriceModel.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -145,5 +146,45 @@ static Future<List<BlogList>> getblogs() async{
   } else {
     throw Exception();
   }
+}
+
+
+static Future<List<int>> getpricelist(String date,String triptype) async{
+    List<int> pricelist = [];
+    final url = Uri.parse("https://flydealfare.com/API/special_price.php?date=$date");
+
+    final response = await http.get(url);
+    var data = jsonDecode(response.body.toString());
+     final PriceModel priceModel = PriceModel.fromJson(data);
+
+     if(response.statusCode == 200){
+       if(triptype == "one"){
+         var min = int.parse(priceModel.owFrom!);
+         var max = int.parse(priceModel.owTo!);
+
+         Random random = new Random();
+         for(int i =0;i<10;i++){
+           int price = min+random.nextInt(max-min);
+           pricelist.add(price);
+
+         }
+         return pricelist;
+       }else{
+         var min = int.parse(priceModel.rtFrom!);
+         var max = int.parse(priceModel.rtTo!);
+
+         Random random = new Random();
+         for(int i =0;i<10;i++){
+           int price = min+random.nextInt(max-min);
+           pricelist.add(price);
+
+         }
+         return pricelist;
+       }
+
+
+     }else{
+       throw Exception();
+     }
 }
 }

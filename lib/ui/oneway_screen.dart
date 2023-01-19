@@ -128,6 +128,7 @@ var  deparvisibility = false;
                         departairportCode = user.code!;
                       });
                     },
+                    errorBuilder: "Some Error Occured",
                   ),
                 ),
 

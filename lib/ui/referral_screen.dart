@@ -70,375 +70,412 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
               )
             ]
         ),
-            body: Container(
-              margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-              width: MediaQuery.of(context).size.width,
-              // height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(color: ColorConstants.backgroundColor),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: Diamensions.height10,
+            body: Column(
+              children: [
+                SizedBox(
+                  height: Diamensions.height5,
+                ),
+                Divider(thickness: 1.2,color: ColorConstants.greencolor,),
+                SizedBox(
+                  height: Diamensions.height5,
+                ),
+                Container(
+                  margin:  EdgeInsets.only(left:Diamensions.width10, right:Diamensions.width10),
+                  width: MediaQuery.of(context).size.width,
+                  child: Material(
+                    color: ColorConstants.backgroundColor,
+                    elevation: Diamensions.width10,
+                    borderRadius: BorderRadius.all(Radius.circular(Diamensions.width10),
                     ),
-                    Container(
-                      width: Diamensions.width310,
-                      child: TypeAheadField<Output?>(
-                        loadingBuilder: (context){
-                          return SizedBox(
-                            height: Diamensions.height10*5,
-                            child: const Center(child: CircularProgressIndicator(
-                              color: ColorConstants.backgroundColor,
-                            )
-                            ),
-                          );
-                        },
-                        minCharsForSuggestions: 3,
-                        hideSuggestionsOnKeyboardHide: true,
-                        textFieldConfiguration: TextFieldConfiguration(
-                            style: const TextStyle(color: ColorConstants.whitecolr),
-                            controller: TextEditingController(
-                                text: (isPressed) ? departSuggestionValue : ""),
-                            decoration: InputDecoration(
-                                hintText: departSuggestionValue,
-                                hintStyle:
-                                const TextStyle(color: ColorConstants.whitecolr),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                disabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: ColorConstants.whitecolr, width: 2.0)),
-                                prefixIcon: const Icon(
-                                  Icons.place_outlined,
-                                  color: ColorConstants.whitecolr,
-                                ))),
-                        suggestionsCallback: UserApiService.getupdatedairportlist,
-                        itemBuilder: (context, Output? suggestion) {
-                          final user = suggestion;
-
-                          i++;
-                          Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
-                          Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
-
-                          return Container(
-                            height: 30,
-                            color: colors,
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, top: 2.5, bottom: 2.5),
-                            child: Text(
-                              "${user?.name} (${user?.code})",
-                              style: TextStyle(color: textcolor, fontSize: 19),
-                            ),
-                          );
-                        },
-                        noItemsFoundBuilder: (context) => Container(
-                          height: 80,
-                          child: const Center(
-                            child: Text(
-                              'No user found',
-                              style: TextStyle(fontSize: 17, color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                        onSuggestionSelected: (Output? suggestion) {
-                          final user = suggestion!;
-                          setState(() {
-                            isPressed = true;
-                            departSuggestionValue = user.name!;
-                            departairportCode = user.code!;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                      width: Diamensions.width310,
-                      child: TypeAheadField<Output?>(
-                        loadingBuilder: (context){
-                          return SizedBox(
-                            height: Diamensions.height10*5,
-                            child: const Center(child: CircularProgressIndicator(
-                              color: ColorConstants.backgroundColor,
-                            )
-                            ),
-                          );
-                        },
-                        minCharsForSuggestions: 3,
-                        hideSuggestionsOnKeyboardHide: true,
-                        textFieldConfiguration: TextFieldConfiguration(
-                            style: const TextStyle(color: ColorConstants.whitecolr),
-                            controller: TextEditingController(
-                                text: (isPressedDes) ? destinationSuggestionValue : ""),
-                            decoration: InputDecoration(
-                                hintText: destinationSuggestionValue,
-                                hintStyle:
-                                const TextStyle(color: ColorConstants.whitecolr),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                disabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: ColorConstants.whitecolr, width: 2.0)),
-                                prefixIcon: const Icon(
-                                  Icons.place_outlined,
-                                  color: ColorConstants.whitecolr,
-                                ))),
-                        suggestionsCallback: UserApiService.getupdatedairportlist,
-                        itemBuilder: (context, Output? suggestion) {
-                          final user = suggestion;
-
-                          i++;
-                          Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
-                          Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
-
-                          return Container(
-                            height: 30,
-                            color: colors,
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, top: 2.5, bottom: 2.5),
-                            child: Text(
-                              "${user?.name} (${user?.code})",
-                              style: TextStyle(color: textcolor, fontSize: 19),
-                            ),
-                          );
-                        },
-                        noItemsFoundBuilder: (context) => Container(
-                          height: 80,
-                          child: const Center(
-                            child: Text(
-                              'No user found',
-                              style: TextStyle(fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        onSuggestionSelected: (Output? suggestion) {
-                          final user = suggestion!;
-                          setState(() {
-                            isPressedDes = true;
-                            destinationSuggestionValue = user.name!;
-                            destinationAirportCode = user.code!;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                      width: Diamensions.width310,
-
-                      child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: namecontroller,
-                          style: const TextStyle(color: ColorConstants.whitecolr),
-                          decoration: const InputDecoration(
-                              labelText: "Enter Name",
-                              labelStyle:
-                              TextStyle(color: ColorConstants.whitecolr),
-                              hintStyle:
-                              TextStyle(color: ColorConstants.whitecolr),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: ColorConstants.whitecolr,
-                                    width: 2.0),
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: ColorConstants.whitecolr,
-                                    width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr,
-                                      width: 2.0)),
-                              prefixIcon: Icon(
-                                Icons.person,
-                                color: ColorConstants.whitecolr,
-                              ))),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                width: Diamensions.width310,
-
-                      child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: emailcontrollere,
-                          style: const TextStyle(color: ColorConstants.whitecolr),
-                          decoration: const InputDecoration(
-                              labelText: "Enter Email",
-                              labelStyle:
-                              TextStyle(color: ColorConstants.whitecolr),
-                              hintStyle:
-                              TextStyle(color: ColorConstants.whitecolr),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: ColorConstants.whitecolr,
-                                    width: 2.0),
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: ColorConstants.whitecolr,
-                                    width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr,
-                                      width: 2.0)),
-                              prefixIcon: Icon(
-                                Icons.email_outlined,
-                                color: ColorConstants.whitecolr,
-                              ))),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                      height: 62.5,
-
-                      width: Diamensions.width310,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 2),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                    child: SingleChildScrollView(
+                      child: Column(
                         children: [
+
+                          SizedBox(
+                            height: Diamensions.height10*2,
+                          ),
+
                           Container(
-                            width: Diamensions.width40*2+Diamensions.width10,
-                            child: TextButton(
-                              onPressed: () {
-                                showCountryPicker(
-                                  context: context,
-                                  favorite: <String>['IN'],
-                                  //Optional. Shows phone code before the country name.
-                                  showPhoneCode: true,
-                                  onSelect: (Country country) {
-
-
-                                    setState(() {
-                                      var name = country.countryCode;
-                                      codeg = country.phoneCode;
-
-                                      codetextg = "+$codeg ($name)";
-                                    });
-                                    print("$codetextg");
-                                  },
-                                  // Optional. Sets the theme for the country list picker.
-                                  countryListTheme: CountryListThemeData(
-                                    // Optional. Sets the border radius for the bottomsheet.
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(40.0),
-                                      topRight: Radius.circular(40.0),
-                                    ),
-                                    // Optional. Styles the search field.
-                                    inputDecoration: InputDecoration(
-                                      labelText: 'Search',
-                                      hintText: 'Start typing to search',
-                                      prefixIcon: const Icon(Icons.search),
-                                      border: OutlineInputBorder(
+                            width: Diamensions.width310,
+                            child: TypeAheadField<Output?>(
+                              loadingBuilder: (context){
+                                return SizedBox(
+                                  height: Diamensions.height10*5,
+                                  child: const Center(child: CircularProgressIndicator(
+                                    color: ColorConstants.backgroundColor,
+                                  )
+                                  ),
+                                );
+                              },
+                              minCharsForSuggestions: 3,
+                              hideSuggestionsOnKeyboardHide: true,
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  style: const TextStyle(color: ColorConstants.whitecolr),
+                                  controller: TextEditingController(
+                                      text: (isPressed) ? departSuggestionValue : ""),
+                                  decoration: InputDecoration(
+                                      hintText: departSuggestionValue,
+                                      hintStyle:
+                                      const TextStyle(color: ColorConstants.whitecolr),
+                                      border: const OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: const Color(0xFF8C98A8).withOpacity(0.2),
+                                            color: ColorConstants.whitecolr, width: 2.0),
+                                      ),
+                                      disabledBorder: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: ColorConstants.whitecolr, width: 2.0),
+                                      ),
+                                      enabledBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorConstants.whitecolr, width: 2.0)),
+                                      prefixIcon: const Icon(
+                                        Icons.place_outlined,
+                                        color: ColorConstants.whitecolr,
+                                      ))),
+                              suggestionsCallback: UserApiService.getupdatedairportlist,
+                              itemBuilder: (context, Output? suggestion) {
+                                final user = suggestion;
+
+                                i++;
+                                Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
+                                Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
+
+                                return Container(
+                                  height: 30,
+                                  color: colors,
+                                  padding: const EdgeInsets.only(
+                                      left: 5, right: 5, top: 2.5, bottom: 2.5),
+                                  child: Text(
+                                    "${user?.name} (${user?.code})",
+                                    style: TextStyle(color: textcolor, fontSize: 19),
+                                  ),
+                                );
+                              },
+                              noItemsFoundBuilder: (context) => Container(
+                                height: 80,
+                                child: const Center(
+                                  child: Text(
+                                    'No user found',
+                                    style: TextStyle(fontSize: 17, color: Colors.blue),
+                                  ),
+                                ),
+                              ),
+                              onSuggestionSelected: (Output? suggestion) {
+                                final user = suggestion!;
+                                setState(() {
+                                  isPressed = true;
+                                  departSuggestionValue = user.name!;
+                                  departairportCode = user.code!;
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: Diamensions.height10,
+                          ),
+                          Container(
+                            width: Diamensions.width310,
+                            child: TypeAheadField<Output?>(
+                              loadingBuilder: (context){
+                                return SizedBox(
+                                  height: Diamensions.height10*5,
+                                  child: const Center(child: CircularProgressIndicator(
+                                    color: ColorConstants.backgroundColor,
+                                  )
+                                  ),
+                                );
+                              },
+                              minCharsForSuggestions: 3,
+                              hideSuggestionsOnKeyboardHide: true,
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  style: const TextStyle(color: ColorConstants.whitecolr),
+                                  controller: TextEditingController(
+                                      text: (isPressedDes) ? destinationSuggestionValue : ""),
+                                  decoration: InputDecoration(
+                                      hintText: destinationSuggestionValue,
+                                      hintStyle:
+                                      const TextStyle(color: ColorConstants.whitecolr),
+                                      border: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: ColorConstants.whitecolr, width: 2.0),
+                                      ),
+                                      disabledBorder: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: ColorConstants.whitecolr, width: 2.0),
+                                      ),
+                                      enabledBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorConstants.whitecolr, width: 2.0)),
+                                      prefixIcon: const Icon(
+                                        Icons.place_outlined,
+                                        color: ColorConstants.whitecolr,
+                                      ))),
+                              suggestionsCallback: UserApiService.getupdatedairportlist,
+                              itemBuilder: (context, Output? suggestion) {
+                                final user = suggestion;
+
+                                i++;
+                                Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
+                                Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
+
+                                return Container(
+                                  height: 30,
+                                  color: colors,
+                                  padding: const EdgeInsets.only(
+                                      left: 5, right: 5, top: 2.5, bottom: 2.5),
+                                  child: Text(
+                                    "${user?.name} (${user?.code})",
+                                    style: TextStyle(color: textcolor, fontSize: 19),
+                                  ),
+                                );
+                              },
+                              noItemsFoundBuilder: (context) => Container(
+                                height: 80,
+                                child: const Center(
+                                  child: Text(
+                                    'No user found',
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                ),
+                              ),
+                              onSuggestionSelected: (Output? suggestion) {
+                                final user = suggestion!;
+                                setState(() {
+                                  isPressedDes = true;
+                                  destinationSuggestionValue = user.name!;
+                                  destinationAirportCode = user.code!;
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: Diamensions.height10,
+                          ),
+                          Container(
+                            width: Diamensions.width310,
+
+                            child: TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: namecontroller,
+                                style: const TextStyle(color: ColorConstants.whitecolr),
+                                decoration: const InputDecoration(
+                                    labelText: "Enter Name",
+                                    labelStyle:
+                                    TextStyle(color: ColorConstants.whitecolr),
+                                    hintStyle:
+                                    TextStyle(color: ColorConstants.whitecolr),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: ColorConstants.whitecolr,
+                                          width: 2.0),
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: ColorConstants.whitecolr,
+                                          width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: ColorConstants.whitecolr,
+                                            width: 2.0)),
+                                    prefixIcon: Icon(
+                                      Icons.person,
+                                      color: ColorConstants.whitecolr,
+                                    ))),
+                          ),
+                          SizedBox(
+                            height: Diamensions.height10,
+                          ),
+                          Container(
+                            width: Diamensions.width310,
+
+                            child: TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: emailcontrollere,
+                                style: const TextStyle(color: ColorConstants.whitecolr),
+                                decoration: const InputDecoration(
+                                    labelText: "Enter Email",
+                                    labelStyle:
+                                    TextStyle(color: ColorConstants.whitecolr),
+                                    hintStyle:
+                                    TextStyle(color: ColorConstants.whitecolr),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: ColorConstants.whitecolr,
+                                          width: 2.0),
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: ColorConstants.whitecolr,
+                                          width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: ColorConstants.whitecolr,
+                                            width: 2.0)),
+                                    prefixIcon: Icon(
+                                      Icons.email_outlined,
+                                      color: ColorConstants.whitecolr,
+                                    ))),
+                          ),
+                          SizedBox(
+                            height: Diamensions.height10,
+                          ),
+                          Container(
+                            height: 62.5,
+
+                            width: Diamensions.width310,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white, width: 2),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: Diamensions.width40*2+Diamensions.width10,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      showCountryPicker(
+                                        context: context,
+                                        favorite: <String>['IN'],
+                                        //Optional. Shows phone code before the country name.
+                                        showPhoneCode: true,
+                                        onSelect: (Country country) {
+
+
+                                          setState(() {
+                                            var name = country.countryCode;
+                                            codeg = country.phoneCode;
+
+                                            codetextg = "+$codeg ($name)";
+                                          });
+                                          print("$codetextg");
+                                        },
+                                        // Optional. Sets the theme for the country list picker.
+                                        countryListTheme: CountryListThemeData(
+                                          // Optional. Sets the border radius for the bottomsheet.
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(40.0),
+                                            topRight: Radius.circular(40.0),
+                                          ),
+                                          // Optional. Styles the search field.
+                                          inputDecoration: InputDecoration(
+                                            labelText: 'Search',
+                                            hintText: 'Start typing to search',
+                                            prefixIcon: const Icon(Icons.search),
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: const Color(0xFF8C98A8).withOpacity(0.2),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child:  Text('$codetextg'),
+                                  ),
+                                ),
+                                Flexible(
+                                  child:Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: TextField(
+                                      onChanged: (value){
+                                      },
+                                      style: const TextStyle(color: Colors.white),
+                                      keyboardType: TextInputType.number,
+                                      controller: numbercontroller,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Enter Number',
+                                        hintStyle: TextStyle(color: Colors.white),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
                                         ),
                                       ),
                                     ),
                                   ),
-                                );
-                              },
-                              child:  Text('$codetextg'),
+                                )
+                              ],
                             ),
                           ),
-                          Flexible(
-                            child:Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: TextField(
-                                onChanged: (value){
+                          SizedBox(
+                            height: Diamensions.height10,
+                          ),
+                          Container(
+                              width: Diamensions.width310,
+                              height: Diamensions.height53,
+                              child: OutlinedButton.icon(
+                                style: OutlinedButton.styleFrom(
+                                    fixedSize: const Size(50, 40),
+                                    alignment: const AlignmentDirectional(-1.0, 0),
+                                    side: const BorderSide(
+                                        width: 2,
+                                        color: ColorConstants.whitecolr,
+                                        style: BorderStyle.solid)),
+                                onPressed: () async {
+                                  await showDateDialog(context);
                                 },
-                                style: const TextStyle(color: Colors.white),
-                                keyboardType: TextInputType.number,
-                                controller: numbercontroller,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter Number',
-                                  hintStyle: TextStyle(color: Colors.white),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                  ),
+                                icon: const Icon(
+                                  Icons.calendar_month_outlined,
+                                  size: 23,
+                                  color: ColorConstants.whitecolr,
                                 ),
-                              ),
-                            ),
-                          )
+                                label: Text(
+                                  selectDateText,
+                                  style: const TextStyle(color: ColorConstants.whitecolr),
+                                ),
+                              )
+                          ),
+                          SizedBox(
+                            height: Diamensions.height10*2,
+                          ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                      width: Diamensions.width310,
-                        height: Diamensions.height53,
-                        child: OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                              fixedSize: const Size(50, 40),
-                              alignment: const AlignmentDirectional(-1.0, 0),
-                              side: const BorderSide(
-                                  width: 2,
-                                  color: ColorConstants.whitecolr,
-                                  style: BorderStyle.solid)),
-                          onPressed: () async {
-                            await showDateDialog(context);
-                          },
-                          icon: const Icon(
-                            Icons.calendar_month_outlined,
-                            size: 23,
-                            color: ColorConstants.whitecolr,
-                          ),
-                          label: Text(
-                            selectDateText,
-                            style: const TextStyle(color: ColorConstants.whitecolr),
-                          ),
-                        )
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                      width: Diamensions.width310,
-                      child: FloatingActionButton.extended(
-                        backgroundColor: ColorConstants.greencolor,
-                        onPressed: () {
-                           submitvalues();
-                           Navigator.pop(context);
-                        },
-                        label: const Text(
-                          'Submit',
-                          style: TextStyle(color: Colors.white, fontSize: 19),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                SizedBox(
+                  height: Diamensions.height5,
+                ),
+                Divider(thickness: 1.2,color: ColorConstants.greencolor,),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: Diamensions.height10*5,
+                  margin:  EdgeInsets.only(
+                      left: Diamensions.width10*2, right: Diamensions.width10*2, top: Diamensions.width10,bottom: Diamensions.height5),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      elevation: 15,
+                      foregroundColor: ColorConstants.whitecolr,
+                        backgroundColor: ColorConstants.greencolor,
+                        side: const BorderSide(
+                          width: 2,
+                          color: ColorConstants.whitecolr,
+                        ),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)))),
+                    onPressed: () {
+                      submitvalues();
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: Diamensions.height5,
+                ),
+                Divider(thickness: 1.2,color: ColorConstants.greencolor,),
+                SizedBox(
+                  height: Diamensions.height5,
+                ),
+              ],
             ),
     );
   }

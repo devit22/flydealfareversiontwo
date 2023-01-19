@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fly_deal_fare/colors_class/colors_class.dart';
 import 'package:fly_deal_fare/ui/flights.dart';
-import 'package:fly_deal_fare/ui/secret_deals.dart';
 
 import 'package:flutter/material.dart';
 

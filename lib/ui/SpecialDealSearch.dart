@@ -1,14 +1,21 @@
 
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fly_deal_fare/colors_class/colors_class.dart';
+import 'package:fly_deal_fare/userapiservices/user_api_services.dart';
 import 'package:fly_deal_fare/utils/diamensions.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class SpecialDealSearch extends StatefulWidget {
   final String? isoneway;
-   SpecialDealSearch({Key? key,this.isoneway}) : super(key: key);
+  final String? fromDate;
+  final String? depcode;
+  final String? descode;
+   SpecialDealSearch({Key? key,this.isoneway,this.fromDate,this.depcode,this.descode}) : super(key: key);
 
   @override
   State<SpecialDealSearch> createState() => _SpecialDealSearchState();
@@ -16,8 +23,8 @@ class SpecialDealSearch extends StatefulWidget {
 
 class _SpecialDealSearchState extends State<SpecialDealSearch> {
   String country = "";
-
-
+List<int> pricelist = [];
+bool isdataloaded = false;
   Future<Position> getuserCurrentLocation() async{
 
     await Geolocator.requestPermission().then((value){
@@ -31,6 +38,13 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
   @override
   void initState() {
   getcurrentcountry();
+
+  UserApiService.getpricelist(widget.fromDate!,widget.isoneway!).then((value){
+  pricelist = value;
+     setState(() {
+       isdataloaded=true;
+     });
+  });
     super.initState();
   }
 
@@ -60,10 +74,10 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
           ),
 
       ),
-      body: Container(
+      body: (isdataloaded)? Container(
         child: ListView.builder(
             shrinkWrap: true,
-            itemCount: 10,
+            itemCount: pricelist.length,
             itemBuilder: (context, position) {
               return Container(
 
@@ -86,7 +100,7 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
                         Column(
                           children: [
                             Container(
-                              width: Diamensions.width10*6,
+                                width: Diamensions.width10*6,
                                 margin: EdgeInsets.only(left:Diamensions.width10,),
                                 child: Image.network("https://flightstoindia.com/wp-content/themes/flights-to-india/img/flight-logo.png"))
                             // Container(
@@ -105,7 +119,7 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
                               children: [
                                 Container(
                                   margin:EdgeInsets.only(left: Diamensions.width10,bottom: Diamensions.width10),
-                                  child: Text("\$7000 *",style: TextStyle(
+                                  child: Text("\$${pricelist[position]} *",style: TextStyle(
                                       color: ColorConstants.backgroundColor,
                                       fontSize: Diamensions.fontsize30-Diamensions.fontsize5
                                   ),
@@ -125,7 +139,7 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
                               children: [
                                 Container(
                                   margin:EdgeInsets.only(left: Diamensions.width10,bottom: Diamensions.width10),
-                                  child: Text("JFK",style: TextStyle(
+                                  child: Text("${widget.depcode}",style: TextStyle(
                                       color: ColorConstants.backgroundColor,
                                       fontSize: Diamensions.fontsize20
                                   ),
@@ -154,7 +168,7 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
                                 ),
                                 Container(
                                   margin:EdgeInsets.only(left: Diamensions.width10,bottom: Diamensions.width10),
-                                  child: Text("DEL",style: TextStyle(
+                                  child: Text("${widget.descode}",style: TextStyle(
                                       color: ColorConstants.backgroundColor,
                                       fontSize: Diamensions.fontsize20
                                   ),
@@ -188,47 +202,13 @@ class _SpecialDealSearchState extends State<SpecialDealSearch> {
                             ),
                           ),
                         ),
-
-                        // Column(
-                        //   children: [
-                        //     Container(
-                        //       margin:EdgeInsets.only(left: Diamensions.width10,bottom: Diamensions.width10),
-                        //       child: Text("\$700 *",style: TextStyle(
-                        //           color: ColorConstants.backgroundColor,
-                        //           fontSize: Diamensions.fontsize20
-                        //       ),
-                        //       ),
-                        //     ),
-                        //     Container(
-                        //       margin:EdgeInsets.only(left: Diamensions.width10,bottom: Diamensions.width10),
-                        //       child: Text("SPL Fare **",style: TextStyle(
-                        //           color: ColorConstants.backgroundColor,
-                        //           fontSize: Diamensions.fontsize20
-                        //       ),
-                        //       ),
-                        //     ),
-                        //     Container(
-                        //       alignment: Alignment.center,
-                        //       padding: EdgeInsets.symmetric(horizontal: Diamensions.width10,vertical: Diamensions.height5),
-                        //       child: FloatingActionButton.extended(
-                        //           heroTag: "$position",
-                        //           onPressed: (){
-                        //             // String urlselected = bloglist[position].link.toString();
-                        //
-                        //             //  Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetailPage(blogUrl: urlselected,)));
-                        //           }, label: Text("Call Now")
-                        //       ),
-                        //     )
-                        //   ],
-                        // )
-
                       ],
                     ),
                   ),
                 ),
               );
             }),
-      ),
+      ): Center(child: CircularProgressIndicator(color: ColorConstants.greencolor,)),
     );
   }
 
