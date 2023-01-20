@@ -8,9 +8,17 @@ import 'package:fly_deal_fare/ui/result_screen.dart';
 import 'package:fly_deal_fare/userapiservices/user_api_services.dart';
 import 'package:fly_deal_fare/utils/diamensions.dart';
 
-class Reward extends StatelessWidget {
-  const Reward({Key? key}) : super(key: key);
+import '../models/Data.dart';
 
+class Reward extends StatefulWidget {
+  Data? loggedindata;
+   Reward({Key? key,this.loggedindata}) : super(key: key);
+
+  @override
+  State<Reward> createState() => _RewardState();
+}
+
+class _RewardState extends State<Reward> {
   @override
   Widget build(BuildContext context) {
 
@@ -55,7 +63,7 @@ class Reward extends StatelessWidget {
 
                           ),
                           TextButton(onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ReferralFormScreen()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ReferralFormScreen(loggedindata: widget.loggedindata,)));
                           },
                               child:Text("Ok, Refering to Friend",
                                 style: TextStyle(
@@ -161,6 +169,4 @@ class Reward extends StatelessWidget {
 
     );
   }
-
-
 }

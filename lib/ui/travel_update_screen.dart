@@ -62,42 +62,35 @@ fetchdata();
                           Divider(color: ColorConstants.greencolor,thickness: 1.3,),
                           Container(
                             padding:EdgeInsets.only(left: Diamensions.width5,right: Diamensions.width5),
-                            child: Text(
-                                "${bloglist[position].title}",
-                              style: TextStyle(
-                                fontSize: Diamensions.fontsize17,
+                            child: Column(
+                              children: [
+                                Text(
+                                    "${bloglist[position].title}",
+                                  style: TextStyle(
+                                    fontSize: Diamensions.fontsize17,
+                                    color: Colors.black54
 
-                              ),
-                            ),
-                          ),
-                           Divider(color: ColorConstants.greencolor,thickness: 1.3,),
-                           Container(
-                             alignment: Alignment.centerRight,
-                             child: TextButton(onPressed: () {
-                               String urlselected = bloglist[position].link.toString();
+                                  ),
+
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    String urlselected = bloglist[position].link.toString();
 
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetailPage(blogUrl: urlselected,)));
-                             },
-                               child: Text("Read More...",style: TextStyle(
-                                 color: ColorConstants.iconColror
-                               ),),
-
-                             ),
-                           )
-                          // Container(
-                          //   alignment: Alignment.center,
-                          //   padding: EdgeInsets.symmetric(horizontal: Diamensions.width10,vertical: Diamensions.height5),
-                          //   child: FloatingActionButton.extended(
-                          //     heroTag: "$position",
-                          //       onPressed: (){
-                          //     String urlselected = bloglist[position].link.toString();
-                          //
-                          //     Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetailPage(blogUrl: urlselected,)));
-                          //   }, label: Text("Read More...")
-                          //   ),
-                          // )
-
-
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.centerRight,
+                                    margin: EdgeInsets.only(bottom: Diamensions.width5),
+                                    child: Text("Read More...",style: TextStyle(
+                                        color: ColorConstants.iconColror,
+                                      fontSize: Diamensions.fontsize16
+                                    ),),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),

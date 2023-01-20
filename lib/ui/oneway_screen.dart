@@ -128,7 +128,16 @@ var  deparvisibility = false;
                         departairportCode = user.code!;
                       });
                     },
-                    errorBuilder: "Some Error Occured",
+                    errorBuilder:(context,object){
+                      return SizedBox(
+                        height:Diamensions.height10*5,
+                        child: Center(
+                            child: Text(" ERROR! ",style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 25
+                            ),)),
+                      );
+                    },
                   ),
                 ),
 
@@ -316,6 +325,16 @@ var  deparvisibility = false;
                         destinationSuggestionValue = user.name!;
                         destinationAirportCode = user.code!;
                       });
+                    },
+                    errorBuilder:(context,object){
+                      return SizedBox(
+                        height:Diamensions.height10*5,
+                        child: Center(
+                            child: Text(" ERROR! ",style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 25
+                            ),)),
+                      );
                     },
                   ),
                 ),

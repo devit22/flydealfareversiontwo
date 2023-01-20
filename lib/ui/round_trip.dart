@@ -120,6 +120,16 @@ class _RoundTripState extends State<RoundTrip> {
                   departAirportCodeValue = user.code!;
                 });
               },
+              errorBuilder:(context,object){
+                return SizedBox(
+                  height:Diamensions.height10*5,
+                  child: Center(
+                      child: Text(" ERROR! ",style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 25
+                      ),)),
+                );
+              },
             ),
           ),
           SizedBox(
@@ -200,6 +210,16 @@ class _RoundTripState extends State<RoundTrip> {
                   destinationSuggestionValue = user.name!;
                   destinationAirportCodeValue = user.code!;
                 });
+              },
+              errorBuilder:(context,object){
+                return SizedBox(
+                  height:Diamensions.height10*5,
+                  child: Center(
+                      child: Text(" ERROR! ",style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 25
+                      ),)),
+                );
               },
             ),
           ),

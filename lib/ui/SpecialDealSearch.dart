@@ -81,7 +81,7 @@ bool isdataloaded = false;
             itemBuilder: (context, position) {
               return Container(
 
-                margin: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                margin:  EdgeInsets.only(left: Diamensions.width10+Diamensions.width5, right: Diamensions.width10+Diamensions.width5, top: Diamensions.width5, bottom: Diamensions.width5),
 
                 child: Material(
                   elevation: Diamensions.width10,
@@ -100,7 +100,7 @@ bool isdataloaded = false;
                         Column(
                           children: [
                             Container(
-                                width: Diamensions.width10*6,
+                                width: Diamensions.width10*Diamensions.width5,
                                 margin: EdgeInsets.only(left:Diamensions.width10,),
                                 child: Image.network("https://flightstoindia.com/wp-content/themes/flights-to-india/img/flight-logo.png"))
                             // Container(
@@ -192,8 +192,8 @@ bool isdataloaded = false;
                             }
                           },
                           child: Container(
-                            height: 58,
-                            width: 58,
+                            height: Diamensions.width53,
+                            width: Diamensions.width53,
                             margin: EdgeInsets.only(right: Diamensions.width5),
                             foregroundDecoration: const BoxDecoration(
                               image: DecorationImage(

@@ -17,7 +17,7 @@ class Deals extends StatefulWidget {
 
 class _DealsState extends State<Deals> {
 
-  var selectDateText = "Depart Date ";
+  var selectDateText = "Depart Date";
   var departairportCode = "some";
   var destinationAirportCode = "some";
   var departSuggestionValue = "Depart City";
@@ -213,6 +213,16 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
                             departairportCode = user.code!;
                           });
                         },
+                        errorBuilder:(context,object){
+                          return SizedBox(
+                            height:Diamensions.height10*5,
+                            child: Center(
+                                child: Text(" ERROR! ",style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 25
+                                ),)),
+                          );
+                        },
                       ),
                     ),
 
@@ -292,6 +302,16 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
                             destinationSuggestionValue = user.name!;
                             destinationAirportCode = user.code!;
                           });
+                        },
+                        errorBuilder:(context,object){
+                          return SizedBox(
+                            height:Diamensions.height10*5,
+                            child: const Center(
+                                child: Text(" ERROR! ",style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 25
+                                ),)),
+                          );
                         },
                       ),
                     ),
@@ -929,7 +949,7 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
 
     if (picked != null && picked != selectDateText) {
       setState(() {
-        selectDateText = "${picked.year}-${picked.month}-${picked.day}/";
+        selectDateText = "${picked.year}-${picked.month}-${picked.day}";
       });
     }
   }
@@ -958,7 +978,7 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
 
     if (picked != null) {
       setState(() {
-        startDateText =
+        selectDateText =
         "${picked.start.year}-${picked.start.month}-${picked.start.day}";
         endDateText =
         "${picked.end.year}-${picked.end.month}-${picked.end.day}";
@@ -971,17 +991,25 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
     var departcode = departairportCode;
     var descode = destinationAirportCode;
 
-    if(_typeOfWay.name == 'one'){
-      var DateSelectText = selectDateText;
-      Navigator.push(context, MaterialPageRoute(builder: (builder) => SpecialDealSearch(isoneway: "one",fromDate: DateSelectText,depcode: departcode,descode: descode)));
+    if(departairportCode != "some" && descode !=  "some"){
+
+      if(_typeOfWay.name == 'one'){
+        var DateSelectText = selectDateText;
+        Navigator.push(context, MaterialPageRoute(builder: (builder) => SpecialDealSearch(isoneway: "one",fromDate: DateSelectText,depcode: departcode,descode: descode)));
+      }else{
+        var startDate = startDateText;
+        var endDate = endDateText;
+
+        print("$startDate  $endDate");
+
+        Navigator.push(context, MaterialPageRoute(builder: (builder) => SpecialDealSearch(isoneway: "round",depcode: departcode,descode: descode,fromDate: startDate,)));
+      }
     }else{
-      var startDate = startDateText;
-      var endDate = endDateText;
-
-      print("$startDate  $endDate");
-
-      Navigator.push(context, MaterialPageRoute(builder: (builder) => SpecialDealSearch(isoneway: "round",depcode: departcode,descode: descode,fromDate: startDate,)));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const  SnackBar(content:   Text("Please select both Airports"))
+      );
     }
+
 
 
   }

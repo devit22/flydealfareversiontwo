@@ -78,7 +78,7 @@ Future<Position> getuserCurrentLocation() async{
     ];
     bottompages =[
       Search(),
-      Reward(),
+      Reward(loggedindata: widget.loggedindata),
       MyTrips(),
       Deals(),
     ];
