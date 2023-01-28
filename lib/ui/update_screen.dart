@@ -20,6 +20,15 @@ class _UpdateScreenState extends State<UpdateScreen> {
   var nameController = TextEditingController();
   var addressController = TextEditingController();
 
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailContrller.dispose();
+    numberController.dispose();
+    nameController.dispose();
+    addressController.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

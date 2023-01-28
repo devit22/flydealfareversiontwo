@@ -40,6 +40,11 @@ class _RoundTripState extends State<RoundTrip> {
     'Premium',
   ];
   @override
+  void dispose() {
+    super.dispose();
+    fieldText.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(

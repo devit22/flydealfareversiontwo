@@ -50,14 +50,83 @@ class _LogInScreenState extends State<LogInScreen> {
   String nameText="defaule";
   String finalnumber="default";
 
+  //for facebok
+  Map<String, dynamic>? _userData;
+  AccessToken? _accessToken;
+  bool _checking = true;
+@override
+  void dispose() {
+    super.dispose();
+     emailControler.dispose();
+     passwordControler.dispose();
+     numberControler.dispose();
+     otpControler.dispose();
+     nameControler.dispose();
+     forgotemailController.dispose();
+  }
   @override
   void initState() {
     _passwordVisible = false;
     loggedInUser = new Data(id:"123",name:"Rahoul",email:"rahoul123@gmail.com",mobile: "7889105686",address: "zirakpur",username: "rahoul123@gmail.com",password: "sdfsd324234sdfs",passValue: "abctest@123",dated: "2022-01-01",lastLogin: "2022-09-12",source: "signup",country: "India",state: "Punjab");
-
+//_checkIfIsLogged();
 
   }
 
+
+  Future<void> _checkIfIsLogged() async {
+    final accessToken = await FacebookAuth.instance.accessToken;
+    setState(() {
+      _checking = false;
+    });
+    if (accessToken != null) {
+      print("is Logged:::: ${accessToken.toJson()}");
+      // now you can call to  FacebookAuth.instance.getUserData();
+      final userData = await FacebookAuth.instance.getUserData();
+      // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+      _accessToken = accessToken;
+      setState(() {
+        _userData = userData;
+      });
+    }else{
+      print("User is not logged in");
+      _login();
+    }
+  }
+
+
+  Future<void> _login() async {
+    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
+
+    // loginBehavior is only supported for Android devices, for ios it will be ignored
+    // final result = await FacebookAuth.instance.login(
+    //   permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],
+    //   loginBehavior: LoginBehavior
+    //       .DIALOG_ONLY, // (only android) show an authentication dialog instead of redirecting to facebook app
+    // );
+
+    if (result.status == LoginStatus.success) {
+      _accessToken = result.accessToken;
+      _printCredentials();
+      // get the user data
+      // by default we get the userId, email,name and picture
+      final userData = await FacebookAuth.instance.getUserData();
+      // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+      _userData = userData;
+    } else {
+      print(result.status);
+      print(result.message);
+    }
+
+    setState(() {
+      _checking = false;
+    });
+  }
+  void _printCredentials() {
+    print(
+     _accessToken!.toJson()
+
+    );
+  }
   void emailandpasswordsigning() async {
     var emailText = emailControler.text.toString();
     var passwordText = passwordControler.text.toString();
@@ -201,40 +270,40 @@ class _LogInScreenState extends State<LogInScreen> {
     }
   }
 
-  void facebooksignin(BuildContext context) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    FacebookAuth.instance.login(permissions: ['email']).then((
-        value) async {
-      print("message => ${value.message}");
-      print("status => ${value.status}");
-      print("accesstoken => ${value.accessToken}");
-
-
-      var creditial = FacebookAuthProvider.credential(value.accessToken!.token);
-      UserCredential result = await auth.signInWithCredential(creditial);
-      User user = result.user!;
-
-      if (user != null) {
-        UserApiService.getResgisterelinkList(user.email.toString(),"Not Availble", user.displayName.toString(), "Not Availble", "Facebook").then((value){
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
-        });
-
-      }
-      FacebookAuth.instance.getUserData().then((userdata) async {
-        userdata.forEach((key, value) {
-          print("$key => $value");
-        });
-        setState(() {
-          _isloggedIn = true;
-          _userObj = userdata;
-        });
-
-
-
-      });
-
-    });
-  }
+  // void facebooksignin(BuildContext context) async {
+  //   final FirebaseAuth auth = FirebaseAuth.instance;
+  //   FacebookAuth.instance.login(permissions: ['email']).then((
+  //       value) async {
+  //     print("message => ${value.message}");
+  //     print("status => ${value.status}");
+  //     print("accesstoken => ${value.accessToken}");
+  //
+  //
+  //     var creditial = FacebookAuthProvider.credential(value.accessToken!.token);
+  //     UserCredential result = await auth.signInWithCredential(creditial);
+  //     User user = result.user!;
+  //
+  //     if (user != null) {
+  //       UserApiService.getResgisterelinkList(user.email.toString(),"Not Availble", user.displayName.toString(), "Not Availble", "Facebook").then((value){
+  //         Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
+  //       });
+  //
+  //     }
+  //     FacebookAuth.instance.getUserData().then((userdata) async {
+  //       userdata.forEach((key, value) {
+  //         print("$key => $value");
+  //       });
+  //       setState(() {
+  //         _isloggedIn = true;
+  //         _userObj = userdata;
+  //       });
+  //
+  //
+  //
+  //     });
+  //
+  //   });
+  // }
 
   // Future signInFacebook() async {
   //   FirebaseAuth auth = FirebaseAuth.instance;
@@ -316,7 +385,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(20)))),
                             onPressed: () {
-                            facebookloginfunction();
+                           // facebookloginfunction();
 
                             },
                             icon: SizedBox(
@@ -1093,24 +1162,30 @@ class _LogInScreenState extends State<LogInScreen> {
     }
   }
 
-  facebookloginfunction() async{
-    try{
-
-      final result = await FacebookAuth.instance.login(permissions: ['public_profile','email']);
-
-     // final result = await FacebookAuth.i.login(,loginBehavior: LoginBehavior.)
-      if(result.status == LoginStatus.success){
-        final userData = await FacebookAuth.i.getUserData();
-
-        UserApiService.getResgisterelinkList(
-            userData['email'], "Not Availble", userData['name'],
-            "Not Availble", "Facebook").then((value) {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => HomeScreen(loggedindata: loggedInUser,pageIndex: 0,iscomponentload: true,)));
-        });
-      }
-    }catch(error){
-      print("error => ${error.toString()}");
-    }
-  }
+  //  facebookloginfunction() async{
+  //
+  // //   await FacebookAuth.i.logOut().then((value){
+  // // print("logout");
+  // //   });
+  //   try{
+  //
+  //     FacebookAuth.instance.logOut();
+  //     final result = await FacebookAuth.instance.login(permissions: ['public_profile','email']);
+  //
+  //    // final result = await FacebookAuth.i.login(,loginBehavior: LoginBehavior.)
+  //     if(result.status == LoginStatus.success){
+  //       final userData = await FacebookAuth.i.getUserData();
+  //
+  //       UserApiService.getResgisterelinkList(
+  //           userData['email'], "Not Availble", userData['name'],
+  //           "Not Availble", "Facebook").then((value) {
+  //         Navigator.of(context).push(
+  //             MaterialPageRoute(builder: (context) => HomeScreen(loggedindata: loggedInUser,pageIndex: 0,iscomponentload: true,)));
+  //       });
+  //     }
+  //   }catch(error){
+  //     print("error => ${error.toString()}");
+  //   }
+  //
+  // }
 }

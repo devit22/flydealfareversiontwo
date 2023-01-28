@@ -40,7 +40,11 @@ var  deparvisibility = false;
   void returntext() {
     departSuggestionValue;
   }
-
+@override
+  void dispose() {
+    super.dispose();
+    fieldText.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     var i = 0;

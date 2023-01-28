@@ -38,7 +38,14 @@ class _ReferralFormScreenState extends State<ReferralFormScreen> {
   var codeg = "+91";
   var smsmcod = "some";
 
-
+@override
+  void dispose() {
+    super.dispose();
+    emailcontrollere.dispose();
+    passwordcontroller.dispose();
+    numbercontroller.dispose();
+    namecontroller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

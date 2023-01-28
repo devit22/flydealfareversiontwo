@@ -27,6 +27,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var countrycode = "+91";
   var codetextg = "+91 (IN)";
   var codeg = "+91";
+
+  @override
+  void dispose() {
+    super.dispose();
+     emailControler.dispose();
+    passwordControler.dispose();
+    nameControler.dispose();
+    numberControler.dispose();
+  }
   @override
   void initState() {
     _passwordVisible = false;

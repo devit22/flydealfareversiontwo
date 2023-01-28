@@ -45,7 +45,15 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
     'Business',
     'Premium',
   ];
-
+@override
+  void dispose() {
+    super.dispose();
+    fieldText.dispose();
+    emailcontrollere.dispose();
+    passwordcontroller.dispose();
+    numbercontroller.dispose();
+    namecontroller.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     var i =0;
