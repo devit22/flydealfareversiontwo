@@ -32,7 +32,8 @@ class HomeScreen extends StatefulWidget {
   Data? loggedindata;
   final int? pageIndex;
   final bool? iscomponentload;
-   HomeScreen({Key? key, this.loggedindata,this.pageIndex,this.iscomponentload}) : super(key: key);
+  final bool? isLoggedIn;
+   HomeScreen({Key? key, this.loggedindata,this.pageIndex,this.iscomponentload,this.isLoggedIn}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -135,6 +136,7 @@ Future<Position> getuserCurrentLocation() async{
                       Center(
                         child: Image.asset("assets/images/mydrawyerlogo.png"),
                       ),
+
                       OutlinedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -143,7 +145,9 @@ Future<Position> getuserCurrentLocation() async{
                           child: const Text(
                             "Sign In ",
                             style: TextStyle(color: Colors.blue),
-                          ))
+                          )
+                      )
+
                     ],
                   ) //UserAccountDrawerHeader
               ), //DrawerHeader
