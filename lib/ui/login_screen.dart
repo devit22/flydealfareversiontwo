@@ -67,7 +67,7 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   void initState() {
     _passwordVisible = false;
-    loggedInUser = new Data(id:"123",name:"Rahoul",email:"rahoul123@gmail.com",mobile: "7889105686",address: "zirakpur",username: "rahoul123@gmail.com",password: "sdfsd324234sdfs",passValue: "abctest@123",dated: "2022-01-01",lastLogin: "2022-09-12",source: "signup",country: "India",state: "Punjab");
+    loggedInUser = new Data(id:"123",name:"Rahoul",email:"rahoul123@gmail.com",mobile: "7889105686",address: "zirakpur",username: "rahoul123@gmail.com",password: "sdfsd324234sdfs",pass_value: "abctest@123",dated: "2022-01-01",last_login: "2022-09-12",source: "signup");
 //_checkIfIsLogged();
 
   }
@@ -151,16 +151,15 @@ class _LogInScreenState extends State<LogInScreen> {
               address: map['data']['address'],
               username: map['data']['username'],
               password: map['data']['password'],
-              passValue: map['data']['passValue'],
+              pass_value: map['data']['pass_value'],
               dated: map['data']['dated'],
-              lastLogin: map['data']['lastLogin'],
+              last_login: map['data']['last_login'],
               source: map['data']['source'],
-            country:map['data']['state'],
-            state: map['data']['state']
           );
 
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => HomeScreen(loggedindata: obj,))
+              MaterialPageRoute(builder: (context) => HomeScreen(loggedindata: obj,iscomponentload: true,isLoggedIn: true))
+
           );
        }
       });

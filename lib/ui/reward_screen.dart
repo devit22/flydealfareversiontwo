@@ -7,7 +7,7 @@ import 'package:fly_deal_fare/ui/referral_screen.dart';
 import 'package:fly_deal_fare/ui/result_screen.dart';
 import 'package:fly_deal_fare/userapiservices/user_api_services.dart';
 import 'package:fly_deal_fare/utils/diamensions.dart';
-
+import 'package:fly_deal_fare/models/referralmodels/Output.dart' as Referral;
 import '../models/Data.dart';
 
 class Reward extends StatefulWidget {
@@ -19,6 +19,32 @@ class Reward extends StatefulWidget {
 }
 
 class _RewardState extends State<Reward> {
+
+  List<Referral.Output> list = [];
+
+  var isDataLoaded = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if(list.isNotEmpty){
+      list.clear();
+    }
+getreffereduser(widget.loggedindata!.id!);
+  }
+
+  void getreffereduser(String UserId){
+    UserApiService.getReferredlist(UserId).then((value) => {
+      setState(() {
+        isDataLoaded = false;
+      }),
+     value.forEach((element) {
+      list.add(element);
+     })
+
+
+    });
+}
   @override
   Widget build(BuildContext context) {
 
@@ -93,12 +119,14 @@ class _RewardState extends State<Reward> {
               SizedBox(
                 height: Diamensions.height10,
               ),
-              Container(
+              isDataLoaded ? Center(
+                child: CircularProgressIndicator(color: ColorConstants.greencolor,),
+              ): Container(
                 margin: EdgeInsets.only(bottom: Diamensions.height10),
                 child: ListView.builder(
                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: 12,
+                    itemCount: list.length,
                     itemBuilder: (context, position) {
                       return Container(
                         child: Padding(
@@ -114,13 +142,13 @@ class _RewardState extends State<Reward> {
                                      children: [
                                         Container(
                                           margin: EdgeInsets.only(left: Diamensions.width10,top: Diamensions.height5,bottom: Diamensions.height5),
-                                          child: Text("Rajesh Kumar",style: TextStyle(
+                                          child: Text(list[position].name!,style: TextStyle(
                                             fontSize: Diamensions.fontsize20
                                           ),),
                                         ),
                                        Container(
                                          margin: EdgeInsets.only(left: Diamensions.width10,bottom: Diamensions.height5),
-                                         child: Text("2023/03/04",style: TextStyle(
+                                         child: Text(list[position].depdate!,style: TextStyle(
                                              fontSize: Diamensions.fontsize17
                                          ),),
                                        ),
@@ -129,10 +157,11 @@ class _RewardState extends State<Reward> {
 
                                    Container(
                                      margin: EdgeInsets.only(right: Diamensions.width10*2),
-                                     child: (position%2==1)? Text("Submitted",style: TextStyle(
+                                     child: (list[position].status == "0")? Text("!Pending",style: TextStyle(
                                        color: ColorConstants.greencolor
-                                     ),):SizedBox(
-                                       child:Text("!Pending",style: TextStyle(
+                                     ),
+                                     ):SizedBox(
+                                       child:Text("Submitted",style: TextStyle(
                                          color: Colors.red
                                        ),),
                                      ),

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fly_deal_fare/colors_class/colors_class.dart';
+import 'package:fly_deal_fare/models/Data.dart';
 import 'package:fly_deal_fare/ui/flights.dart';
 
 import 'package:flutter/material.dart';
 
 import 'deals_screen.dart';
 
-class Search extends StatelessWidget {
-  const Search({Key? key}) : super(key: key);
+class Search extends StatefulWidget {
+  Data? loggedindata;
+   Search({Key? key,required this.loggedindata}) : super(key: key);
+
+  @override
+  State<Search> createState() => _SearchState();
+}
+
+class _SearchState extends State<Search> {
   TabBar get _tabBar => TabBar(
         indicatorColor: ColorConstants.whitecolr,
         tabs: [
@@ -39,8 +47,8 @@ class Search extends StatelessWidget {
                   child: _tabBar,
                 ),
               )),
-          body: const TabBarView(
-            children: [Flights(),Deals(),],
+          body:  TabBarView(
+            children: [Flights(),Deals(loggedindata: widget.loggedindata),],
           ),
         ));
   }

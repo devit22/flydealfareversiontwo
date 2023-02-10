@@ -7,12 +7,13 @@ class Data {
   String? address;
   String? username;
   String? password;
-  String? passValue;
+  String? pass_value;
   String? dated;
-  String? lastLogin;
+  String? last_login;
   String? source;
-  String? country;
-  String? state;
+
+
+
 
   Data({
       this.id, 
@@ -22,13 +23,10 @@ class Data {
       this.address, 
       this.username, 
       this.password, 
-      this.passValue, 
+      this.pass_value,
       this.dated, 
-      this.lastLogin, 
+      this.last_login,
       this.source,
-  this.country,
-    this.state
-
   });
 
   Data.fromJson(dynamic json) {
@@ -39,12 +37,10 @@ class Data {
     address = json['address'];
     username = json['username'];
     password = json['password'];
-    passValue = json['passValue'];
+    pass_value = json['pass_value'];
     dated = json['dated'];
-    lastLogin = json['lastLogin'];
+    last_login = json['last_login'];
     source = json['source'];
-    country= json['country'];
-    state = json['state'];
   }
 
 
@@ -57,12 +53,10 @@ class Data {
     map['address'] = address;
     map['username'] = username;
     map['password'] = password;
-    map['passValue'] = passValue;
+    map['pass_value'] = pass_value;
     map['dated'] = dated;
-    map['lastLogin'] = lastLogin;
+    map['last_login'] = last_login;
     map['source'] = source;
-    map['country']= country;
-    map['state'] = state;
     return map;
   }
 

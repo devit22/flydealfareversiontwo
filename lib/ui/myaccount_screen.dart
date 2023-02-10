@@ -254,12 +254,10 @@ class _MyAccountState extends State<MyAccount> {
                                   address: map['data']['address'],
                                   username: map['data']['username'],
                                   password: map['data']['password'],
-                                  passValue: map['data']['passValue'],
+                                  pass_value: map['data']['pass_value'],
                                   dated: map['data']['dated'],
-                                  lastLogin: map['data']['lastLogin'],
+                                  last_login: map['data']['last_login'],
                                   source: map['data']['source'],
-                                country:map['data']['country'],
-                                state: map['data']['state']
                               );
 
                               Navigator.push(context,

@@ -31,9 +31,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class HomeScreen extends StatefulWidget {
   Data? loggedindata;
   final int? pageIndex;
+  final int? bottomindex ;
   final bool? iscomponentload;
   final bool? isLoggedIn;
-   HomeScreen({Key? key, this.loggedindata,this.pageIndex,this.iscomponentload,this.isLoggedIn}) : super(key: key);
+   HomeScreen({Key? key, this.loggedindata,this.pageIndex = 0,this.iscomponentload=true,this.isLoggedIn,this.bottomindex =0}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -47,8 +48,8 @@ var bottompages = [];
   var iscomponentload = true;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   String url = "https://v2.zopim.com/widget/livechat.html?api_calls=%5B%5D&hostname=flydealfare.com&key=3Em35GdwEBlCExa7X0KZN0silzvPrqZA&lang=en&";
-late FirebaseAuth auth;
-String country = "";
+//late FirebaseAuth auth;
+//String country = "";
 
 Future<Position> getuserCurrentLocation() async{
 
@@ -68,7 +69,7 @@ Future<Position> getuserCurrentLocation() async{
     print(" ${value.latitude} and ${value.longitude} ");
   });
 
-    auth = FirebaseAuth.instance;
+    //auth = FirebaseAuth.instance;
 
     pages = [
       MyAccount(loggedInuser: widget.loggedindata,),
@@ -78,14 +79,15 @@ Future<Position> getuserCurrentLocation() async{
       TravelUpdateScreen()
     ];
     bottompages =[
-      Search(),
+      Search(loggedindata: widget.loggedindata),
       Reward(loggedindata: widget.loggedindata),
       MyTrips(),
-      Deals(),
+      Deals(loggedindata: widget.loggedindata),
     ];
     if (!(widget.pageIndex == 0 && widget.iscomponentload == false)) {
       pageIndex = widget.pageIndex!;
       iscomponentload = widget.iscomponentload!;
+      bottomindex = widget.bottomindex!;
     }
     super.initState();
 

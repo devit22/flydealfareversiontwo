@@ -2,6 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fly_deal_fare/colors_class/colors_class.dart';
+import 'package:fly_deal_fare/models/Data.dart';
 import 'package:fly_deal_fare/models/output.dart';
 import 'package:fly_deal_fare/ui/SpecialDealSearch.dart';
 import 'package:fly_deal_fare/userapiservices/user_api_services.dart';
@@ -9,7 +10,8 @@ import 'package:fly_deal_fare/utils/diamensions.dart';
 import 'package:fly_deal_fare/utils/radio_button_class.dart';
 
 class Deals extends StatefulWidget {
-  const Deals({Key? key}) : super(key: key);
+  Data? loggedindata;
+   Deals({Key? key,required this.loggedindata}) : super(key: key);
 
   @override
   State<Deals> createState() => _DealsState();
@@ -45,6 +47,13 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
     'Business',
     'Premium',
   ];
+  var isDataSubmitted = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isDataSubmitted = false;
+  }
 @override
   void dispose() {
     super.dispose();
@@ -58,480 +67,454 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
   Widget build(BuildContext context) {
     var i =0;
     return Scaffold(
-      body:  SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: Diamensions.height5,
-            ),
-            Divider(thickness: 1.2,color: ColorConstants.greencolor,),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: Diamensions.width10),
-                child: Center(
-                  child: Text("Special Call Only Cheap Flights Deals To India",
-                    style: TextStyle(
-                        color: ColorConstants.backgroundColor,
-                        fontSize: Diamensions.fontsize30-Diamensions.fontsize5,
-                        decoration: TextDecoration.underline
+      body:  Stack(
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: Diamensions.height5,
+              ),
+              Divider(thickness: 1.2,color: ColorConstants.greencolor,),
+              Container(
+                  margin: EdgeInsets.symmetric(horizontal: Diamensions.width10),
+                  child: Center(
+                    child: Text("Special Call Only Cheap Flights Deals To India",
+                      style: TextStyle(
+                          color: ColorConstants.backgroundColor,
+                          fontSize: Diamensions.fontsize30-Diamensions.fontsize5,
+                          decoration: TextDecoration.underline
+                      ),
                     ),
+                  )
+              ),
+              Divider(thickness: 1.2,color: ColorConstants.greencolor,),
+              Container(
+                margin:  EdgeInsets.only(left: Diamensions.width10, right:  Diamensions.width10, top: Diamensions.height5),
+                width: MediaQuery.of(context).size.width,
+                // height: MediaQuery.of(context).size.height,
+                child: Material(
+                  color: ColorConstants.backgroundColor,
+                  elevation: Diamensions.width10,
+                  borderRadius: BorderRadius.all(Radius.circular(Diamensions.width10),
                   ),
-                )
-            ),
-            Divider(thickness: 1.2,color: ColorConstants.greencolor,),
-            Container(
-              margin:  EdgeInsets.only(left: Diamensions.width10, right:  Diamensions.width10, top: Diamensions.height5),
-              width: MediaQuery.of(context).size.width,
-              // height: MediaQuery.of(context).size.height,
-              child: Material(
-                color: ColorConstants.backgroundColor,
-                elevation: Diamensions.width10,
-                borderRadius: BorderRadius.all(Radius.circular(Diamensions.width10),
-                ),
-                child: Column(
-                  children: [
-                    //Radio buttons
-                    Container(
-                      width: Diamensions.width310,
-                      alignment: Alignment.centerLeft,
-                      // decoration: BoxDecoration(
-                      //   border: Border.all(color: Colors.white, width: 2),
-                      //   borderRadius: BorderRadius.circular(5.0),
-                      // ),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            child: Row(
-                              children: [
-                                Radio<TypeOfWay>(
-                                  fillColor: MaterialStateColor.resolveWith(
-                                          (states) => ColorConstants.whitecolr),
-                                  focusColor: MaterialStateColor.resolveWith(
-                                          (states) => ColorConstants.whitecolr),
-                                  value: TypeOfWay.one,
-                                  groupValue: _typeOfWay,
-                                  onChanged: (TypeOfWay? value) {
-                                    setState(() {
-                                      _typeOfWay = value!;
-                                    });
-                                    print(_typeOfWay.name);
-                                  },
-                                ),
-                                const Text('One Way',
-                                    style: TextStyle(
-                                        color: ColorConstants.whitecolr)),
-                              ],
+                  child: Column(
+                    children: [
+                      //Radio buttons
+                      Container(
+                        width: Diamensions.width310,
+                        alignment: Alignment.centerLeft,
+                        // decoration: BoxDecoration(
+                        //   border: Border.all(color: Colors.white, width: 2),
+                        //   borderRadius: BorderRadius.circular(5.0),
+                        // ),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                children: [
+                                  Radio<TypeOfWay>(
+                                    fillColor: MaterialStateColor.resolveWith(
+                                            (states) => ColorConstants.whitecolr),
+                                    focusColor: MaterialStateColor.resolveWith(
+                                            (states) => ColorConstants.whitecolr),
+                                    value: TypeOfWay.one,
+                                    groupValue: _typeOfWay,
+                                    onChanged: (TypeOfWay? value) {
+                                      setState(() {
+                                        _typeOfWay = value!;
+                                      });
+                                      print(_typeOfWay.name);
+                                    },
+                                  ),
+                                  const Text('One Way',
+                                      style: TextStyle(
+                                          color: ColorConstants.whitecolr)),
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            child: Row(
-                              children: [
-                                Radio<TypeOfWay>(
-                                  fillColor: MaterialStateColor.resolveWith(
-                                          (states) => ColorConstants.whitecolr),
-                                  focusColor: MaterialStateColor.resolveWith(
-                                          (states) => ColorConstants.whitecolr),
-                                  value: TypeOfWay.round,
-                                  groupValue: _typeOfWay,
-                                  onChanged: (TypeOfWay? value) {
-                                    setState(() {
-                                      _typeOfWay = value!;
-                                    });
-                                    print(_typeOfWay.name);
-                                  },
-                                ),
-                                const Text('Round Way',
-                                    style: TextStyle(color: ColorConstants.whitecolr)),
-                              ],
+                            Container(
+                              child: Row(
+                                children: [
+                                  Radio<TypeOfWay>(
+                                    fillColor: MaterialStateColor.resolveWith(
+                                            (states) => ColorConstants.whitecolr),
+                                    focusColor: MaterialStateColor.resolveWith(
+                                            (states) => ColorConstants.whitecolr),
+                                    value: TypeOfWay.round,
+                                    groupValue: _typeOfWay,
+                                    onChanged: (TypeOfWay? value) {
+                                      setState(() {
+                                        _typeOfWay = value!;
+                                      });
+                                      print(_typeOfWay.name);
+                                    },
+                                  ),
+                                  const Text('Round Way',
+                                      style: TextStyle(color: ColorConstants.whitecolr)),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    //deepar city
-                    Container(
-                      width: Diamensions.width310,
-                      child: TypeAheadField<Output?>(
-                        loadingBuilder: (context){
-                          return SizedBox(
-                            height: Diamensions.height10*5,
-                            child: const Center(child: CircularProgressIndicator(
-                              color: ColorConstants.backgroundColor,
-                            )
-                            ),
-                          );
-                        },
-                        minCharsForSuggestions: 3,
-                        hideSuggestionsOnKeyboardHide: true,
-                        textFieldConfiguration: TextFieldConfiguration(
-                            style: const TextStyle(color: ColorConstants.whitecolr),
-                            controller: TextEditingController(
-                                text: (isPressed) ? departSuggestionValue : ""),
-                            decoration: InputDecoration(
-                                hintText: departSuggestionValue,
-                                hintStyle:
-                                const TextStyle(color: ColorConstants.whitecolr),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                disabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: ColorConstants.whitecolr, width: 2.0)),
-                                prefixIcon: const Icon(
-                                  Icons.place_outlined,
-                                  color: ColorConstants.whitecolr,
-                                ))),
-                        suggestionsCallback: UserApiService.getupdatedairportlist,
-                        itemBuilder: (context, Output? suggestion) {
-                          final user = suggestion;
-
-                          i++;
-                          Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
-                          Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
-
-                          return Container(
-                            height: 30,
-                            color: colors,
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, top: 2.5, bottom: 2.5),
-                            child: Text(
-                              "${user?.name} (${user?.code})",
-                              style: TextStyle(color: textcolor, fontSize: 19),
-                            ),
-                          );
-                        },
-                        noItemsFoundBuilder: (context) => Container(
-                          height: 80,
-                          child: const Center(
-                            child: Text(
-                              'No user found',
-                              style: TextStyle(fontSize: 17, color: Colors.blue),
-                            ),
-                          ),
+                          ],
                         ),
-                        onSuggestionSelected: (Output? suggestion) {
-                          final user = suggestion!;
-                          setState(() {
-                            isPressed = true;
-                            departSuggestionValue = user.name!;
-                            departairportCode = user.code!;
-                          });
-                        },
-                        errorBuilder:(context,object){
-                          return SizedBox(
-                            height:Diamensions.height10*5,
-                            child: Center(
-                                child: Text(" ERROR! ",style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 25
-                                ),)),
-                          );
-                        },
                       ),
-                    ),
-
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    //destination city
-                    Container(
-                      width: Diamensions.width310,
-                      child: TypeAheadField<Output?>(
-                        loadingBuilder: (context){
-                          return SizedBox(
-                            height: Diamensions.height10*5,
-                            child: const Center(child: CircularProgressIndicator(
-                              color: ColorConstants.backgroundColor,
-                            )
-                            ),
-                          );
-                        },
-                        minCharsForSuggestions: 3,
-                        hideSuggestionsOnKeyboardHide: true,
-                        textFieldConfiguration: TextFieldConfiguration(
-                            style: const TextStyle(color: ColorConstants.whitecolr),
-                            controller: TextEditingController(
-                                text: (isPressedDes) ? destinationSuggestionValue : ""),
-                            decoration: InputDecoration(
-                                hintText: destinationSuggestionValue,
-                                hintStyle:
-                                const TextStyle(color: ColorConstants.whitecolr),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                disabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.whitecolr, width: 2.0),
-                                ),
-                                enabledBorder: const OutlineInputBorder(
+                      //deepar city
+                      Container(
+                        width: Diamensions.width310,
+                        child: TypeAheadField<Output?>(
+                          loadingBuilder: (context){
+                            return SizedBox(
+                              height: Diamensions.height10*5,
+                              child: const Center(child: CircularProgressIndicator(
+                                color: ColorConstants.backgroundColor,
+                              )
+                              ),
+                            );
+                          },
+                          minCharsForSuggestions: 3,
+                          hideSuggestionsOnKeyboardHide: true,
+                          textFieldConfiguration: TextFieldConfiguration(
+                              style: const TextStyle(color: ColorConstants.whitecolr),
+                              controller: TextEditingController(
+                                  text: (isPressed) ? departSuggestionValue : ""),
+                              decoration: InputDecoration(
+                                  hintText: departSuggestionValue,
+                                  hintStyle:
+                                  const TextStyle(color: ColorConstants.whitecolr),
+                                  border: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: ColorConstants.whitecolr, width: 2.0)),
-                                prefixIcon: const Icon(
-                                  Icons.place_outlined,
-                                  color: ColorConstants.whitecolr,
-                                ))),
-                        suggestionsCallback: UserApiService.getupdatedairportlist,
-                        itemBuilder: (context, Output? suggestion) {
-                          final user = suggestion;
+                                        color: ColorConstants.whitecolr, width: 2.0),
+                                  ),
+                                  disabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorConstants.whitecolr, width: 2.0),
+                                  ),
+                                  enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: ColorConstants.whitecolr, width: 2.0)),
+                                  prefixIcon: const Icon(
+                                    Icons.place_outlined,
+                                    color: ColorConstants.whitecolr,
+                                  ))),
+                          suggestionsCallback: UserApiService.getupdatedairportlist,
+                          itemBuilder: (context, Output? suggestion) {
+                            final user = suggestion;
 
-                          i++;
-                          Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
-                          Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
+                            i++;
+                            Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
+                            Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
 
-                          return Container(
-                            height: 30,
-                            color: colors,
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, top: 2.5, bottom: 2.5),
-                            child: Text(
-                              "${user?.name} (${user?.code})",
-                              style: TextStyle(color: textcolor, fontSize: 19),
-                            ),
-                          );
-                        },
-                        noItemsFoundBuilder: (context) => Container(
-                          height: 80,
-                          child: const Center(
-                            child: Text(
-                              'No user found',
-                              style: TextStyle(fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        onSuggestionSelected: (Output? suggestion) {
-                          final user = suggestion!;
-                          setState(() {
-                            isPressedDes = true;
-                            destinationSuggestionValue = user.name!;
-                            destinationAirportCode = user.code!;
-                          });
-                        },
-                        errorBuilder:(context,object){
-                          return SizedBox(
-                            height:Diamensions.height10*5,
+                            return Container(
+                              height: 30,
+                              color: colors,
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 2.5, bottom: 2.5),
+                              child: Text(
+                                "${user?.name} (${user?.code})",
+                                style: TextStyle(color: textcolor, fontSize: 19),
+                              ),
+                            );
+                          },
+                          noItemsFoundBuilder: (context) => Container(
+                            height: 80,
                             child: const Center(
-                                child: Text(" ERROR! ",style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 25
-                                ),)),
-                          );
-                        },
+                              child: Text(
+                                'No user found',
+                                style: TextStyle(fontSize: 17, color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                          onSuggestionSelected: (Output? suggestion) {
+                            final user = suggestion!;
+                            setState(() {
+                              isPressed = true;
+                              departSuggestionValue = user.name!;
+                              departairportCode = user.code!;
+                            });
+                          },
+                          errorBuilder:(context,object){
+                            return SizedBox(
+                              height:Diamensions.height10*5,
+                              child: Center(
+                                  child: Text(" ERROR! ",style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 25
+                                  ),)),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                      width: Diamensions.width310,
-                      child: TextFormField(
 
-                        style: const TextStyle(color: ColorConstants.whitecolr),
-                        decoration: const InputDecoration(
-                          labelText: 'Enter email',
-                          labelStyle: TextStyle(color: ColorConstants.whitecolr),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: ColorConstants.whitecolr, width: 2.0),
+                      SizedBox(
+                        height: Diamensions.height10,
+                      ),
+                      //destination city
+                      Container(
+                        width: Diamensions.width310,
+                        child: TypeAheadField<Output?>(
+                          loadingBuilder: (context){
+                            return SizedBox(
+                              height: Diamensions.height10*5,
+                              child: const Center(child: CircularProgressIndicator(
+                                color: ColorConstants.backgroundColor,
+                              )
+                              ),
+                            );
+                          },
+                          minCharsForSuggestions: 3,
+                          hideSuggestionsOnKeyboardHide: true,
+                          textFieldConfiguration: TextFieldConfiguration(
+                              style: const TextStyle(color: ColorConstants.whitecolr),
+                              controller: TextEditingController(
+                                  text: (isPressedDes) ? destinationSuggestionValue : ""),
+                              decoration: InputDecoration(
+                                  hintText: destinationSuggestionValue,
+                                  hintStyle:
+                                  const TextStyle(color: ColorConstants.whitecolr),
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorConstants.whitecolr, width: 2.0),
+                                  ),
+                                  disabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorConstants.whitecolr, width: 2.0),
+                                  ),
+                                  enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: ColorConstants.whitecolr, width: 2.0)),
+                                  prefixIcon: const Icon(
+                                    Icons.place_outlined,
+                                    color: ColorConstants.whitecolr,
+                                  ))),
+                          suggestionsCallback: UserApiService.getupdatedairportlist,
+                          itemBuilder: (context, Output? suggestion) {
+                            final user = suggestion;
+
+                            i++;
+                            Color colors = (i % 2 == 0) ? Colors.blue : Colors.white;
+                            Color textcolor = (i % 2 == 0) ? Colors.white : Colors.blue;
+
+                            return Container(
+                              height: 30,
+                              color: colors,
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 2.5, bottom: 2.5),
+                              child: Text(
+                                "${user?.name} (${user?.code})",
+                                style: TextStyle(color: textcolor, fontSize: 19),
+                              ),
+                            );
+                          },
+                          noItemsFoundBuilder: (context) => Container(
+                            height: 80,
+                            child: const Center(
+                              child: Text(
+                                'No user found',
+                                style: TextStyle(fontSize: 17),
+                              ),
+                            ),
                           ),
-                          disabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: ColorConstants.whitecolr, width: 2.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
+                          onSuggestionSelected: (Output? suggestion) {
+                            final user = suggestion!;
+                            setState(() {
+                              isPressedDes = true;
+                              destinationSuggestionValue = user.name!;
+                              destinationAirportCode = user.code!;
+                            });
+                          },
+                          errorBuilder:(context,object){
+                            return SizedBox(
+                              height:Diamensions.height10*5,
+                              child: const Center(
+                                  child: Text(" ERROR! ",style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 25
+                                  ),)),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: Diamensions.height10,
+                      ),
+                      Container(
+                        width: Diamensions.width310,
+                        child: TextFormField(
+
+                          style: const TextStyle(color: ColorConstants.whitecolr),
+                          decoration: const InputDecoration(
+                            labelText: 'Enter email',
+                            labelStyle: TextStyle(color: ColorConstants.whitecolr),
+                            border: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: ColorConstants.whitecolr, width: 2.0)),
-                          prefixIcon: Icon(
-                            Icons.email_outlined,
-                            color: ColorConstants.whitecolr,
+                                  color: ColorConstants.whitecolr, width: 2.0),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: ColorConstants.whitecolr, width: 2.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: ColorConstants.whitecolr, width: 2.0)),
+                            prefixIcon: Icon(
+                              Icons.email_outlined,
+                              color: ColorConstants.whitecolr,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                      width: Diamensions.width310,
-                      child: TextFormField(
+                      SizedBox(
+                        height: Diamensions.height10,
+                      ),
+                      Container(
+                        width: Diamensions.width310,
+                        child: TextFormField(
 
-                        style: const TextStyle(color: ColorConstants.whitecolr),
-                        decoration: const InputDecoration(
-                          labelText: 'Enter Name',
-                          labelStyle: TextStyle(color: ColorConstants.whitecolr),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: ColorConstants.whitecolr, width: 2.0),
-                          ),
-                          disabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: ColorConstants.whitecolr, width: 2.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
+                          style: const TextStyle(color: ColorConstants.whitecolr),
+                          decoration: const InputDecoration(
+                            labelText: 'Enter Name',
+                            labelStyle: TextStyle(color: ColorConstants.whitecolr),
+                            border: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: ColorConstants.whitecolr, width: 2.0)),
-                          prefixIcon: Icon(
-                            Icons.person,
-                            color: ColorConstants.whitecolr,
+                                  color: ColorConstants.whitecolr, width: 2.0),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: ColorConstants.whitecolr, width: 2.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: ColorConstants.whitecolr, width: 2.0)),
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: ColorConstants.whitecolr,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                  //number
-                    Container(
-                      height: 62.5,
-
-                      width: Diamensions.width310,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 2),
-                        borderRadius: BorderRadius.circular(5.0),
+                      SizedBox(
+                        height: Diamensions.height10,
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: Diamensions.width40*2+Diamensions.width10,
-                            child: TextButton(
-                              onPressed: () {
-                                showCountryPicker(
-                                  context: context,
-                                  favorite: <String>['IN'],
-                                  //Optional. Shows phone code before the country name.
-                                  showPhoneCode: true,
-                                  onSelect: (Country country) {
+                      //number
+                      Container(
+                        height: 62.5,
+
+                        width: Diamensions.width310,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 2),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: Diamensions.width40*2+Diamensions.width10,
+                              child: TextButton(
+                                onPressed: () {
+                                  showCountryPicker(
+                                    context: context,
+                                    favorite: <String>['IN'],
+                                    //Optional. Shows phone code before the country name.
+                                    showPhoneCode: true,
+                                    onSelect: (Country country) {
 
 
-                                    setState(() {
-                                      var name = country.countryCode;
-                                      codeg = country.phoneCode;
+                                      setState(() {
+                                        var name = country.countryCode;
+                                        codeg = country.phoneCode;
 
-                                      codetextg = "+$codeg ($name)";
-                                    });
-                                    print("$codetextg");
-                                  },
-                                  // Optional. Sets the theme for the country list picker.
-                                  countryListTheme: CountryListThemeData(
-                                    // Optional. Sets the border radius for the bottomsheet.
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(40.0),
-                                      topRight: Radius.circular(40.0),
-                                    ),
-                                    // Optional. Styles the search field.
-                                    inputDecoration: InputDecoration(
-                                      labelText: 'Search',
-                                      hintText: 'Start typing to search',
-                                      prefixIcon: const Icon(Icons.search),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: const Color(0xFF8C98A8).withOpacity(0.2),
+                                        codetextg = "+$codeg ($name)";
+                                      });
+                                      print("$codetextg");
+                                    },
+                                    // Optional. Sets the theme for the country list picker.
+                                    countryListTheme: CountryListThemeData(
+                                      // Optional. Sets the border radius for the bottomsheet.
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(40.0),
+                                        topRight: Radius.circular(40.0),
+                                      ),
+                                      // Optional. Styles the search field.
+                                      inputDecoration: InputDecoration(
+                                        labelText: 'Search',
+                                        hintText: 'Start typing to search',
+                                        prefixIcon: const Icon(Icons.search),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: const Color(0xFF8C98A8).withOpacity(0.2),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
-                              child:  Text('$codetextg'),
-                            ),
-                          ),
-                          Flexible(
-                            child:Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: TextField(
-                                onChanged: (value){
+                                  );
                                 },
-                                style: const TextStyle(color: Colors.white),
-                                keyboardType: TextInputType.number,
-                                controller: numbercontroller,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter Number',
-                                  hintStyle: TextStyle(color: Colors.white),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
+                                child:  Text('$codetextg'),
+                              ),
+                            ),
+                            Flexible(
+                              child:Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: TextField(
+                                  onChanged: (value){
+                                  },
+                                  style: const TextStyle(color: Colors.white),
+                                  keyboardType: TextInputType.number,
+                                  controller: numbercontroller,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter Number',
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.white),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: Diamensions.height10,
+                      ),
+                      //depart date layout
+                      (_typeOfWay.name == "one")?Container(
+                          width: Diamensions.width310,
+                          height: Diamensions.height53,
+                          child: OutlinedButton.icon(
+                            style: OutlinedButton.styleFrom(
+                                fixedSize: const Size(50, 40),
+                                alignment: const AlignmentDirectional(-1.0, 0),
+                                side: const BorderSide(
+                                    width: 2,
+                                    color: ColorConstants.whitecolr,
+                                    style: BorderStyle.solid)),
+                            onPressed: () async {
+                              await showDateDialog(context);
+                            },
+                            icon: const Icon(
+                              Icons.calendar_month_outlined,
+                              size: 23,
+                              color: ColorConstants.whitecolr,
+                            ),
+                            label: Text(
+                              selectDateText,
+                              style: const TextStyle(color: ColorConstants.whitecolr),
                             ),
                           )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    //depart date layout
-                    (_typeOfWay.name == "one")?Container(
+                      ): Container(
                         width: Diamensions.width310,
-                        height: Diamensions.height53,
-                        child: OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                              fixedSize: const Size(50, 40),
-                              alignment: const AlignmentDirectional(-1.0, 0),
-                              side: const BorderSide(
-                                  width: 2,
-                                  color: ColorConstants.whitecolr,
-                                  style: BorderStyle.solid)),
-                          onPressed: () async {
-                            await showDateDialog(context);
-                          },
-                          icon: const Icon(
-                            Icons.calendar_month_outlined,
-                            size: 23,
-                            color: ColorConstants.whitecolr,
-                          ),
-                          label: Text(
-                            selectDateText,
-                            style: const TextStyle(color: ColorConstants.whitecolr),
-                          ),
-                        )
-                    ): Container(
-                      width: Diamensions.width310,
 
 
-                      child: Row(
-                        children: [
-                          Container(
-                              height: Diamensions.width53,
-                              width: Diamensions.width145,
-                              margin:  EdgeInsets.only(right: Diamensions.width5,bottom: Diamensions.height5),
-                              child: OutlinedButton.icon(
-                                style: OutlinedButton.styleFrom(
-                                    fixedSize: const Size(50, 40),
-                                    alignment: const AlignmentDirectional(-1.0, 0),
-                                    side: const BorderSide(
-                                        width: 2,
-                                        color: ColorConstants.whitecolr,
-                                        style: BorderStyle.solid)),
-                                onPressed: () async {
-                                  await roundDateDialog(context);
-                                },
-                                icon: const Icon(
-                                  Icons.calendar_month_outlined,
-                                  size:  23,
-                                  color: ColorConstants.whitecolr,
-                                ),
-                                label: Text(
-                                  startDateText,
-                                  style: const TextStyle(color: ColorConstants.whitecolr),
-                                ),
-                              )),
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: Container(
-
+                        child: Row(
+                          children: [
+                            Container(
                                 height: Diamensions.width53,
-                                margin:  EdgeInsets.only(
-                                    left: Diamensions.width10, bottom: Diamensions.height5),
+                                width: Diamensions.width145,
+                                margin:  EdgeInsets.only(right: Diamensions.width5,bottom: Diamensions.height5),
                                 child: OutlinedButton.icon(
                                   style: OutlinedButton.styleFrom(
                                       fixedSize: const Size(50, 40),
@@ -545,388 +528,427 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
                                   },
                                   icon: const Icon(
                                     Icons.calendar_month_outlined,
-                                    size: 23,
+                                    size:  23,
                                     color: ColorConstants.whitecolr,
                                   ),
                                   label: Text(
-                                    endDateText,
+                                    startDateText,
                                     style: const TextStyle(color: ColorConstants.whitecolr),
                                   ),
                                 )),
-                          ),
-                        ],
-                      ),
-                    ),
+                            Flexible(
+                              fit: FlexFit.tight,
+                              child: Container(
 
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
-                    Container(
-                      width: Diamensions.width310,
-                      height: Diamensions.height53-Diamensions.height5,
-                      margin:  EdgeInsets.only(left: Diamensions.width10, right: Diamensions.width10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.0),
-                          border: Border.all(width: 2,color: Colors.white)
-                      ),
-                      child: DropdownButton(
-
-
-                        // Initial Value
-                        value: dropdownvalue,
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: ColorConstants.whitecolr,
+                                  height: Diamensions.width53,
+                                  margin:  EdgeInsets.only(
+                                      left: Diamensions.width10, bottom: Diamensions.height5),
+                                  child: OutlinedButton.icon(
+                                    style: OutlinedButton.styleFrom(
+                                        fixedSize: const Size(50, 40),
+                                        alignment: const AlignmentDirectional(-1.0, 0),
+                                        side: const BorderSide(
+                                            width: 2,
+                                            color: ColorConstants.whitecolr,
+                                            style: BorderStyle.solid)),
+                                    onPressed: () async {
+                                      await roundDateDialog(context);
+                                    },
+                                    icon: const Icon(
+                                      Icons.calendar_month_outlined,
+                                      size: 23,
+                                      color: ColorConstants.whitecolr,
+                                    ),
+                                    label: Text(
+                                      endDateText,
+                                      style: const TextStyle(color: ColorConstants.whitecolr),
+                                    ),
+                                  )),
+                            ),
+                          ],
                         ),
-                        isExpanded: true,
-                        selectedItemBuilder: (BuildContext context) { //<-- SEE HERE
-                          return <String>[
-                            'Economy',
-                            'First',
-                            'Business',
-                            'Premium',
-                          ]
-                              .map((String value) {
-                            return Center(
-                              child: Text(dropdownvalue,
-                                style:  TextStyle(color: Colors.white, fontSize: Diamensions.fontsize17),
+                      ),
+
+                      SizedBox(
+                        height: Diamensions.height10,
+                      ),
+                      Container(
+                        width: Diamensions.width310,
+                        height: Diamensions.height53-Diamensions.height5,
+                        margin:  EdgeInsets.only(left: Diamensions.width10, right: Diamensions.width10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(width: 2,color: Colors.white)
+                        ),
+                        child: DropdownButton(
+
+
+                          // Initial Value
+                          value: dropdownvalue,
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: ColorConstants.whitecolr,
+                          ),
+                          isExpanded: true,
+                          selectedItemBuilder: (BuildContext context) { //<-- SEE HERE
+                            return <String>[
+                              'Economy',
+                              'First',
+                              'Business',
+                              'Premium',
+                            ]
+                                .map((String value) {
+                              return Center(
+                                child: Text(dropdownvalue,
+                                  style:  TextStyle(color: Colors.white, fontSize: Diamensions.fontsize17),
+                                ),
+                              );
+                            }).toList();
+                          },
+                          underline: Container(height: 2,color: ColorConstants.backgroundColor,),
+                          alignment: Alignment.center,
+                          // Array list of items
+                          items: items.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(
+                                items,
+                                style: const TextStyle(
+                                    color: ColorConstants.iconColror,
+                                    fontSize: 17),
                               ),
                             );
-                          }).toList();
-                        },
-                        underline: Container(height: 2,color: ColorConstants.backgroundColor,),
-                        alignment: Alignment.center,
-                        // Array list of items
-                        items: items.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(
-                              items,
-                              style: const TextStyle(
-                                  color: ColorConstants.iconColror,
-                                  fontSize: 17),
-                            ),
-                          );
-                        }).toList(),
-                        // After selecting the desired option,it will
-                        // change button value to selected value
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownvalue = newValue!;
-                          });
-                        },
+                          }).toList(),
+                          // After selecting the desired option,it will
+                          // change button value to selected value
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownvalue = newValue!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    //Passanger Layout
-                    Container(
-                      width: Diamensions.width310+Diamensions.width10*3,
-                      padding: EdgeInsets.only(left: Diamensions.width10+Diamensions.width5,right: Diamensions.width10+Diamensions.width5),
+                      //Passanger Layout
+                      Container(
+                        width: Diamensions.width310+Diamensions.width10*3,
+                        padding: EdgeInsets.only(left: Diamensions.width10+Diamensions.width5,right: Diamensions.width10+Diamensions.width5),
 
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
 
-                            margin: const EdgeInsets.only( top: 10, bottom: 5),
-                            child: Stack(
-                              children: [
+                              margin: const EdgeInsets.only( top: 10, bottom: 5),
+                              child: Stack(
+                                children: [
 
-                                Container(
-                                  padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
-                                  margin: EdgeInsets.only(top: Diamensions.height5),
-                                  decoration:  BoxDecoration(
-                                      border: Border.all(width: 1.3,color: Colors.white),
-                                      borderRadius: BorderRadius.circular(6.0)
+                                  Container(
+                                    padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
+                                    margin: EdgeInsets.only(top: Diamensions.height5),
+                                    decoration:  BoxDecoration(
+                                        border: Border.all(width: 1.3,color: Colors.white),
+                                        borderRadius: BorderRadius.circular(6.0)
 
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: (){
-                                          setState(() {
-                                            if(adultcount >1){
-                                              adultcount = adultcount-1;
-                                            }
-                                          });
-                                        },
-                                        child: Card(
-                                          child: Container(
-                                            color: Colors.white,
-                                            width: Diamensions.width5*4,
-                                            height: Diamensions.width5*4,
-                                            margin:  EdgeInsets.all(Diamensions.width1*2),
-                                            child: Center(
-                                              child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                          width: Diamensions.width10*3-5,
-                                          height: Diamensions.height10*3-5,
-                                          child: Center(
-                                            child: Text(
-                                              "$adultcount",
-                                              style:  TextStyle(
-                                                  color: ColorConstants.whitecolr,
-                                                  fontSize: Diamensions.fontsize17),
-                                            ),
-                                          )),
-                                      GestureDetector(
-                                        onTap: (){
-                                          setState(() {
-
-                                            adultcount = adultcount+1;
-
-                                          });
-                                        },
-                                        child: Card(
-                                          child: Container(
-                                            color: Colors.white,
-                                            width: Diamensions.width5*4,
-                                            height: Diamensions.width5*4,
-                                            margin:  EdgeInsets.all(Diamensions.width1*2),
-                                            child: Center(
-                                              child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                    child: Container(
-                                      color: ColorConstants.backgroundColor,
-                                      child: Text("Adult",style: TextStyle(color: Colors.white),
-                                      ),
                                     ),
-                                    left: Diamensions.width10*3,
-                                    bottom: Diamensions.height40-Diamensions.height1*2
-
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: Diamensions.height5,
-                          ),
-                          Container(
-
-                            margin: const EdgeInsets.only( top: 10, bottom: 5),
-                            child: Stack(
-                              children: [
-
-                                Container(
-                                  padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
-                                  margin: EdgeInsets.only(top: Diamensions.height5),
-                                  decoration:  BoxDecoration(
-                                      border: Border.all(width: 1.3,color: Colors.white),
-                                      borderRadius: BorderRadius.circular(6.0)
-
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: (){
-                                          setState(() {
-                                            if(childcount >0){
-                                              childcount = childcount-1;
-                                            }
-                                          });
-                                        },
-                                        child: Card(
-                                          child: Container(
-                                            color: Colors.white,
-                                            width: Diamensions.width5*4,
-                                            height: Diamensions.width5*4,
-                                            margin:  EdgeInsets.all(Diamensions.width1*2),
-                                            child: Center(
-                                              child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              if(adultcount >1){
+                                                adultcount = adultcount-1;
+                                              }
+                                            });
+                                          },
+                                          child: Card(
+                                            child: Container(
+                                              color: Colors.white,
+                                              width: Diamensions.width5*4,
+                                              height: Diamensions.width5*4,
+                                              margin:  EdgeInsets.all(Diamensions.width1*2),
+                                              child: Center(
+                                                child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Container(
-                                          width: Diamensions.width10*3-5,
-                                          height: Diamensions.height10*3-5,
-                                          child: Center(
-                                            child: Text(
-                                              "$childcount",
-                                              style:  TextStyle(
-                                                  color: ColorConstants.whitecolr,
-                                                  fontSize: Diamensions.fontsize17),
-                                            ),
-                                          )),
-                                      GestureDetector(
-                                        onTap: (){
-                                          setState(() {
-
-                                            childcount = childcount+1;
-
-                                          });
-                                        },
-                                        child: Card(
-                                          child: Container(
-                                            color: Colors.white,
-                                            width: Diamensions.width5*4,
-                                            height: Diamensions.width5*4,
-                                            margin:  EdgeInsets.all(Diamensions.width1*2),
+                                        Container(
+                                            width: Diamensions.width10*3-5,
+                                            height: Diamensions.height10*3-5,
                                             child: Center(
-                                              child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                              child: Text(
+                                                "$adultcount",
+                                                style:  TextStyle(
+                                                    color: ColorConstants.whitecolr,
+                                                    fontSize: Diamensions.fontsize17),
+                                              ),
+                                            )),
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+
+                                              adultcount = adultcount+1;
+
+                                            });
+                                          },
+                                          child: Card(
+                                            child: Container(
+                                              color: Colors.white,
+                                              width: Diamensions.width5*4,
+                                              height: Diamensions.width5*4,
+                                              margin:  EdgeInsets.all(Diamensions.width1*2),
+                                              child: Center(
+                                                child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                    child: Container(
-                                      color: ColorConstants.backgroundColor,
-                                      child: Text("Child",style: TextStyle(color: Colors.white),
-                                      ),
+                                      ],
                                     ),
-                                    left: Diamensions.width10*3,
-                                    bottom: Diamensions.height40-Diamensions.height1*2
-                                ),
-                              ],
+                                  ),
+                                  Positioned(
+                                      child: Container(
+                                        color: ColorConstants.backgroundColor,
+                                        child: Text("Adult",style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      left: Diamensions.width10*3,
+                                      bottom: Diamensions.height40-Diamensions.height1*2
+
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: Diamensions.height5,
-                          ),
-                          Container(
+                            SizedBox(
+                              width: Diamensions.height5,
+                            ),
+                            Container(
 
-                            margin: const EdgeInsets.only( top: 10, bottom: 5),
-                            child: Stack(
-                              children: [
+                              margin: const EdgeInsets.only( top: 10, bottom: 5),
+                              child: Stack(
+                                children: [
 
-                                Container(
-                                  padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
-                                  margin: EdgeInsets.only(top: Diamensions.height5),
-                                  decoration:  BoxDecoration(
-                                      border: Border.all(width: 1.3,color: Colors.white),
-                                      borderRadius: BorderRadius.circular(6.0)
+                                  Container(
+                                    padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
+                                    margin: EdgeInsets.only(top: Diamensions.height5),
+                                    decoration:  BoxDecoration(
+                                        border: Border.all(width: 1.3,color: Colors.white),
+                                        borderRadius: BorderRadius.circular(6.0)
 
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: (){
-                                          setState(() {
-                                            if(infantcount >0){
-                                              infantcount = infantcount-1;
-                                            }
-                                          });
-                                        },
-                                        child: Card(
-                                          child: Container(
-                                            color: Colors.white,
-                                            width: Diamensions.width5*4,
-                                            height: Diamensions.width5*4,
-                                            margin:  EdgeInsets.all(Diamensions.width1*2),
-                                            child: Center(
-                                              child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                          width: Diamensions.width10*3-5,
-                                          height: Diamensions.height10*3-5,
-                                          child: Center(
-                                            child: Text(
-                                              "$infantcount",
-                                              style:  TextStyle(
-                                                  color: ColorConstants.whitecolr,
-                                                  fontSize: Diamensions.fontsize17),
-                                            ),
-                                          )),
-                                      GestureDetector(
-                                        onTap: (){
-                                          setState(() {
-
-                                            infantcount = infantcount+1;
-
-                                          });
-                                        },
-                                        child: Card(
-                                          child: Container(
-                                            color: Colors.white,
-                                            width: Diamensions.width5*4,
-                                            height: Diamensions.width5*4,
-                                            margin:  EdgeInsets.all(Diamensions.width1*2),
-                                            child: Center(
-                                              child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                    child: Container(
-                                      color: ColorConstants.backgroundColor,
-                                      child: Text("Infant",style: TextStyle(color: Colors.white),
-                                      ),
                                     ),
-                                    left: Diamensions.width10*3,
-                                    bottom: Diamensions.height40-Diamensions.height1*2
-                                ),
-                              ],
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              if(childcount >0){
+                                                childcount = childcount-1;
+                                              }
+                                            });
+                                          },
+                                          child: Card(
+                                            child: Container(
+                                              color: Colors.white,
+                                              width: Diamensions.width5*4,
+                                              height: Diamensions.width5*4,
+                                              margin:  EdgeInsets.all(Diamensions.width1*2),
+                                              child: Center(
+                                                child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            width: Diamensions.width10*3-5,
+                                            height: Diamensions.height10*3-5,
+                                            child: Center(
+                                              child: Text(
+                                                "$childcount",
+                                                style:  TextStyle(
+                                                    color: ColorConstants.whitecolr,
+                                                    fontSize: Diamensions.fontsize17),
+                                              ),
+                                            )),
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+
+                                              childcount = childcount+1;
+
+                                            });
+                                          },
+                                          child: Card(
+                                            child: Container(
+                                              color: Colors.white,
+                                              width: Diamensions.width5*4,
+                                              height: Diamensions.width5*4,
+                                              margin:  EdgeInsets.all(Diamensions.width1*2),
+                                              child: Center(
+                                                child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Positioned(
+                                      child: Container(
+                                        color: ColorConstants.backgroundColor,
+                                        child: Text("Child",style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      left: Diamensions.width10*3,
+                                      bottom: Diamensions.height40-Diamensions.height1*2
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              width: Diamensions.height5,
+                            ),
+                            Container(
+
+                              margin: const EdgeInsets.only( top: 10, bottom: 5),
+                              child: Stack(
+                                children: [
+
+                                  Container(
+                                    padding: EdgeInsets.only(top: Diamensions.height10,bottom: Diamensions.height5,),
+                                    margin: EdgeInsets.only(top: Diamensions.height5),
+                                    decoration:  BoxDecoration(
+                                        border: Border.all(width: 1.3,color: Colors.white),
+                                        borderRadius: BorderRadius.circular(6.0)
+
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              if(infantcount >0){
+                                                infantcount = infantcount-1;
+                                              }
+                                            });
+                                          },
+                                          child: Card(
+                                            child: Container(
+                                              color: Colors.white,
+                                              width: Diamensions.width5*4,
+                                              height: Diamensions.width5*4,
+                                              margin:  EdgeInsets.all(Diamensions.width1*2),
+                                              child: Center(
+                                                child: Text("-",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            width: Diamensions.width10*3-5,
+                                            height: Diamensions.height10*3-5,
+                                            child: Center(
+                                              child: Text(
+                                                "$infantcount",
+                                                style:  TextStyle(
+                                                    color: ColorConstants.whitecolr,
+                                                    fontSize: Diamensions.fontsize17),
+                                              ),
+                                            )),
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+
+                                              infantcount = infantcount+1;
+
+                                            });
+                                          },
+                                          child: Card(
+                                            child: Container(
+                                              color: Colors.white,
+                                              width: Diamensions.width5*4,
+                                              height: Diamensions.width5*4,
+                                              margin:  EdgeInsets.all(Diamensions.width1*2),
+                                              child: Center(
+                                                child: Text("+",style: TextStyle(fontSize: Diamensions.fontsize17),),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Positioned(
+                                      child: Container(
+                                        color: ColorConstants.backgroundColor,
+                                        child: Text("Infant",style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      left: Diamensions.width10*3,
+                                      bottom: Diamensions.height40-Diamensions.height1*2
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: Diamensions.height10,
-                    ),
+                      SizedBox(
+                        height: Diamensions.height10,
+                      ),
 
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
 
-            SizedBox(
-              height: Diamensions.height5,
-            ),
-            Divider(thickness: 1.2,color: ColorConstants.greencolor,),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: Diamensions.height10*5,
-              margin:  EdgeInsets.only(
-                  left: Diamensions.width10*2, right: Diamensions.width10*2, top: Diamensions.width10,bottom: Diamensions.height5),
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    elevation: 15,
-                    foregroundColor: ColorConstants.whitecolr,
-                    backgroundColor: ColorConstants.greencolor,
-                    side: const BorderSide(
-                      width: 2,
-                      color: ColorConstants.whitecolr,
-                    ),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)))),
-                onPressed: () {
-                  showlist();
-                },
-                child: const Text(
-                  "Submit",
-                  style: TextStyle(fontSize: 17),
+              SizedBox(
+                height: Diamensions.height5,
+              ),
+              Divider(thickness: 1.2,color: ColorConstants.greencolor,),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: Diamensions.height10*5,
+                margin:  EdgeInsets.only(
+                    left: Diamensions.width10*2, right: Diamensions.width10*2, top: Diamensions.width10,bottom: Diamensions.height5),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                      elevation: 15,
+                      foregroundColor: ColorConstants.whitecolr,
+                      backgroundColor: ColorConstants.greencolor,
+                      side: const BorderSide(
+                        width: 2,
+                        color: ColorConstants.whitecolr,
+                      ),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)))),
+                  onPressed: () {
+                    showlist();
+                  },
+                  child: const Text(
+                    "Submit",
+                    style: TextStyle(fontSize: 17),
+                  ),
                 ),
               ),
-            ),
-            Divider(thickness: 1.2,color: ColorConstants.greencolor,),
-            SizedBox(
-              height: Diamensions.height10,
-            ),
+              Divider(thickness: 1.2,color: ColorConstants.greencolor,),
+              SizedBox(
+                height: Diamensions.height10,
+              ),
 
-          ],
+            ],
+          ),
         ),
+        Visibility(
+          visible: isDataSubmitted,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: ColorConstants.greencolor,
+              ),
+            )
+        )
+        
+      ],
       ),
     );
   }
@@ -994,6 +1016,9 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
     }
   }
   void showlist() {
+  setState(() {
+    isDataSubmitted = true;
+  });
     var numbertext = numbercontroller.text.toString();
     var finalnumberText = "$codeg$numbertext";
     var departcode = departairportCode;
@@ -1003,15 +1028,28 @@ TypeOfWay _typeOfWay = TypeOfWay.one;
 
       if(_typeOfWay.name == 'one'){
         var DateSelectText = selectDateText;
-        Navigator.push(context, MaterialPageRoute(builder: (builder) => SpecialDealSearch(isoneway: "one",fromDate: DateSelectText,depcode: departcode,descode: descode)));
+
+        UserApiService.submitsecretdata(widget.loggedindata!.id!, departSuggestionValue, destinationSuggestionValue, dropdownvalue, DateSelectText,"Searched One Way","$adultcount","$childcount","$infantcount", emailcontrollere.text, finalnumberText, namecontroller.text, _typeOfWay.name).then((value) {
+
+          print(value.data);
+           Navigator.push(context, MaterialPageRoute(builder: (builder) => SpecialDealSearch(isoneway: "one",fromDate: DateSelectText,depcode: departcode,descode: descode)));
+        });
+
       }else{
         var startDate = startDateText;
         var endDate = endDateText;
 
-        print("$startDate  $endDate");
+        UserApiService.submitsecretdata(widget.loggedindata!.id!, departSuggestionValue, destinationSuggestionValue, dropdownvalue, startDate,endDate,"$adultcount","$childcount","$infantcount", emailcontrollere.text, finalnumberText, namecontroller.text, _typeOfWay.name).then((value) {
+          print(value.data);
+          Navigator.push(context, MaterialPageRoute(builder: (builder) => SpecialDealSearch(isoneway: "round",depcode: departcode,descode: descode,fromDate: startDate,)));
+        });
 
-        Navigator.push(context, MaterialPageRoute(builder: (builder) => SpecialDealSearch(isoneway: "round",depcode: departcode,descode: descode,fromDate: startDate,)));
+
+
       }
+      setState(() {
+        isDataSubmitted = false;
+      });
     }else{
       ScaffoldMessenger.of(context).showSnackBar(
           const  SnackBar(content:   Text("Please select both Airports"))
